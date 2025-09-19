@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AGD Project Dashboard</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.6/quill.snow.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://unicons.iconscout.com/release/v4.0.0/css/line.css"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="css/global.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/theme.css" />
+  </head>
+  <body>
+    <div class="app-container">
+      <div class="sidebar">
+        <div class="sidebar-header">
+          <div class="logo">
+            <div class="logo-icon">
+              <i class="fas fa-palette"></i>
+            </div>
+            <span>Gous Studio</span>
+          </div>
+        </div>
+
+        <div class="sidebar-nav">
+          <div class="nav-section">
+            <div class="nav-section-title">Overview</div>
+            <a
+              href="#"
+              class="nav-item active"
+              onclick="showSection('dashboard')"
+            >
+              <i class="uil uil-chart-line"></i>
+              Dashboard
+            </a>
+            <a href="#" class="nav-item" onclick="showSection('projects')">
+              <i class="uil uil-folder-open"></i>
+              Projects
+            </a>
+            <a href="#" class="nav-item">
+              <i class="uil uil-pricetag-alt"></i>
+              Pricelist <span class="status-badge status-review">Soon</span>
+            </a>
+            <a href="#" class="nav-item">
+              <i class="uil uil-palette"></i>
+              Portfolio <span class="status-badge status-review">Soon</span>
+            </a>
+          </div>
+
+          <div class="nav-section">
+            <div class="nav-section-title">Tools</div>
+            <a
+              href="#"
+              class="nav-item"
+              onclick="window.open('https://splitbill-alpha.vercel.app/', '_blank')"
+            >
+              <i class="uil uil-external-link-alt"></i>
+              Split Bill
+            </a>
+            <a href="#" class="nav-item">
+              <i class="uil uil-calendar-alt"></i>
+              Calendar <span class="status-badge status-review">Soon</span>
+            </a>
+            <a href="#" class="nav-item">
+              <i class="uil uil-chart"></i>
+              Reports <span class="status-badge status-review">Soon</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="main-content">
+        <!-- Dashboard Section -->
+        <div id="dashboard-section">
+          <div class="content-header">
+            <div class="header-top">
+              <div>
+                <h1 class="page-title">Dashboard</h1>
+                <p class="page-subtitle">
+                  Track your design projects and performance
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="content-body">
+            <div class="stats-grid">
+              <div class="stat-card total">
+                <div class="stat-header">
+                  <div>
+                    <div class="stat-number" id="total-projects">0</div>
+                    <div class="stat-label">Total Projects</div>
+                  </div>
+                  <div class="stat-icon total">
+                    <i class="uil uil-bag-alt"></i>
+                  </div>
+                </div>
+              </div>
+
+              <div class="stat-card ongoing">
+                <div class="stat-header">
+                  <div>
+                    <div class="stat-number" id="ongoing-projects">0</div>
+                    <div class="stat-label">Ongoing Projects</div>
+                  </div>
+                  <div class="stat-icon ongoing">
+                    <i class="uil uil-clock-three"></i>
+                  </div>
+                </div>
+              </div>
+
+              <div class="stat-card completed">
+                <div class="stat-header">
+                  <div>
+                    <div class="stat-number" id="completed-projects">0</div>
+                    <div class="stat-label">Completed Projects</div>
+                  </div>
+                  <div class="stat-icon completed">
+                    <i class="uil uil-check-circle"></i>
+                  </div>
+                </div>
+              </div>
+
+              <div class="stat-card revenue">
+                <div class="stat-header">
+                  <div>
+                    <div class="stat-number currency" id="ongoing-revenue">
+                      Rp 0
+                    </div>
+                    <div class="stat-label">Estimated Revenue</div>
+                  </div>
+                  <div class="stat-icon revenue">
+                    <i class="uil uil-money-bill"></i>
+                  </div>
+                </div>
+              </div>
+
+              <div class="stat-card revenue">
+                <div class="stat-header">
+                  <div>
+                    <div class="stat-number currency" id="completed-revenue">
+                      Rp 0
+                    </div>
+                    <div class="stat-label">Completed Revenue</div>
+                  </div>
+                  <div class="stat-icon revenue">
+                    <i class="uil uil-wallet"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Projects Section -->
+        <div id="projects-section" class="hidden">
+          <div class="content-header">
+            <div class="header-top">
+              <div>
+                <h1 class="page-title">Projects</h1>
+                <p class="page-subtitle">Manage your design projects</p>
+              </div>
+              <!-- <div class="header-actions">
+                <button class="btn btn-primary" onclick="showProjectModal()">
+                  <i class="fas fa-plus"></i>
+                  Add Project
+                </button>
+              </div> -->
+            </div>
+          </div>
+
+          <div class="content-body">
+            <div class="content-card">
+              <div class="card-header">
+                <h2 class="card-title">All Projects</h2>
+                <button class="btn btn-primary" onclick="showProjectModal()">
+                  <i class="fas fa-plus"></i>
+                  Add Project
+                </button>
+              </div>
+              <div class="card-body">
+                <div class="table-container">
+                  <table class="table" id="projects-table">
+                    <thead>
+                      <tr>
+                        <th>Order No</th>
+                        <th>Project Name</th>
+                        <th>Client</th>
+                        <th>Deadline</th>
+                        <th>Total Price</th>
+                        <th>Deliverables</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody id="projects-tbody"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Project Modal -->
+    <div id="project-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title" id="modal-title">Add New Project</h2>
+          <button class="close" onclick="closeProjectModal()">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div id="alert-container"></div>
+          <form id="project-form">
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="form-label">Status</label>
+                <select id="status" class="form-control">
+                  <option value="to do">To Do</option>
+                  <option value="in progress">In Progress</option>
+                  <option value="waiting for payment">
+                    Waiting for Payment
+                  </option>
+                  <option value="in review">In Review</option>
+                  <option value="revision">Revision</option>
+                  <option value="done">Done</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Order Number</label>
+                <input
+                  type="text"
+                  id="numberOrder"
+                  class="form-control"
+                  readonly
+                />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Project Name *</label>
+                <input
+                  type="text"
+                  id="projectName"
+                  class="form-control"
+                  required
+                  placeholder="Enter project name"
+                />
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Client Name *</label>
+                  <input
+                    type="text"
+                    id="clientName"
+                    class="form-control"
+                    required
+                    placeholder="Enter client name"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Client Phone</label>
+                  <input
+                    type="tel"
+                    id="clientPhone"
+                    class="form-control"
+                    placeholder="Enter phone number"
+                  />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Deadline *</label>
+                <input
+                  type="date"
+                  id="deadline"
+                  class="form-control"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Project Brief</label>
+                <div id="editor"></div>
+                <input type="hidden" id="brief" />
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Price (Rp) *</label>
+                  <input
+                    type="number"
+                    id="price"
+                    class="form-control"
+                    min="0"
+                    required
+                    placeholder="0"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Quantity *</label>
+                  <input
+                    type="number"
+                    id="quantity"
+                    class="form-control"
+                    min="1"
+                    value="1"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Discount (Rp)</label>
+                  <input
+                    type="number"
+                    id="discount"
+                    class="form-control"
+                    min="0"
+                    placeholder="0"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Total Price</label>
+                  <input
+                    type="text"
+                    id="totalPrice"
+                    class="form-control"
+                    readonly
+                    placeholder="Rp 0"
+                  />
+                </div>
+              </div>
+
+              <div class="form-row-button">
+                <div class="form-group">
+                  <label class="form-label">Deliverables Link</label>
+                  <input
+                    type="url"
+                    id="deliverables"
+                    class="form-control"
+                    placeholder="https://drive.google.com/..."
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">See Result</label>
+                  <button
+                    class="btn btn-primary"
+                    onclick="window.open('result.html', '_blank')"
+                  >
+                    <i class="uil uil-external-link-alt"></i>
+                    See Result
+                  </button>
+                </div>
+              </div>
+
+              <div class="form-row-button">
+                <div class="form-group">
+                  <label class="form-label">Invoice Link</label>
+                  <input
+                    type="url"
+                    id="invoice"
+                    class="form-control"
+                    placeholder="https://splitbill-alpha.vercel.app/..."
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Create Invoice</label>
+                  <button
+                    class="btn btn-primary"
+                    onclick="window.open('https://splitbill-alpha.vercel.app/', '_blank')"
+                  >
+                    <i class="uil uil-external-link-alt"></i>
+                    Create Invoice
+                  </button>
+                </div>
+              </div>
+
+              <div class="modal-buttons-sticky">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  onclick="closeProjectModal()"
+                >
+                  Cancel
+                </button>
+                <button type="submit" class="btn btn-primary">
+                  <i class="uil uil-save"></i>
+                  Save Project
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.6/quill.min.js"></script>
+    <script src="js/script.js"></script>
+  </body>
+</html>
