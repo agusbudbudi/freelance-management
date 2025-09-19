@@ -1,7 +1,46 @@
 // Global variables
-let projects = JSON.parse(localStorage.getItem("design-projects") || "[]");
+let projects = [];
 let editingProjectId = null;
 let quill;
+
+// API Base URL
+const API_BASE_URL = "/api";
+
+// API Helper functions
+async function apiRequest(endpoint, options = {}) {
+  try {
+    const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+      headers: {
+        "Content-Type": "application/json",
+        ...options.headers,
+      },
+      ...options,
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(
+        errorData.error || `HTTP error! status: ${response.status}`
+      );
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("API request failed:", error);
+    throw error;
+  }
+}
+
+// Load projects from API
+async function loadProjects() {
+  try {
+    projects = await apiRequest("/projects");
+    renderProjectsTable();
+    updateDashboard();
+  } catch (error) {
+    showAlert("Failed to load projects: " + error.message, "error");
+  }
+}
 
 // Initialize Quill editor
 function initQuill() {
@@ -276,12 +315,21 @@ function editProject(projectId) {
 }
 
 // Delete project
-function deleteProject(projectId) {
+async function deleteProject(projectId) {
   if (confirm("Are you sure you want to delete this project?")) {
-    projects = projects.filter((p) => p.id !== projectId);
-    localStorage.setItem("design-projects", JSON.stringify(projects));
-    renderProjectsTable();
-    updateDashboard();
+    try {
+      await apiRequest(`/projects/${projectId}`, {
+        method: "DELETE",
+      });
+
+      // Remove from local array
+      projects = projects.filter((p) => p.id !== projectId);
+      renderProjectsTable();
+      updateDashboard();
+      showAlert("Project deleted successfully!");
+    } catch (error) {
+      showAlert("Failed to delete project: " + error.message, "error");
+    }
   }
 }
 
@@ -301,21 +349,31 @@ function showAlert(message, type = "success") {
 }
 
 // Save project
-function saveProject(formData) {
+async function saveProject(formData) {
   try {
     if (editingProjectId) {
       // Update existing project
+      const updatedProject = await apiRequest(`/projects/${editingProjectId}`, {
+        method: "PUT",
+        body: JSON.stringify(formData),
+      });
+
+      // Update local array
       const index = projects.findIndex((p) => p.id === editingProjectId);
-      projects[index] = { ...projects[index], ...formData };
+      projects[index] = updatedProject;
       showAlert("Project updated successfully!");
     } else {
       // Add new project
-      formData.id = Date.now().toString();
-      projects.push(formData);
+      const newProject = await apiRequest("/projects", {
+        method: "POST",
+        body: JSON.stringify(formData),
+      });
+
+      // Add to local array
+      projects.push(newProject);
       showAlert("Project created successfully!");
     }
 
-    localStorage.setItem("design-projects", JSON.stringify(projects));
     renderProjectsTable();
     updateDashboard();
 
@@ -323,7 +381,7 @@ function saveProject(formData) {
       closeProjectModal();
     }, 1500);
   } catch (error) {
-    showAlert("An error occurred while saving the project.", "error");
+    showAlert("Failed to save project: " + error.message, "error");
   }
 }
 
@@ -384,9 +442,8 @@ function initApp() {
       }
     });
 
-  // Initial render
-  updateDashboard();
-  renderProjectsTable();
+  // Load projects from API on app start
+  loadProjects();
 }
 
 // Start the app

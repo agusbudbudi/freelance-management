@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AGD Project Dashboard</title>
+    <title>Freelance Management</title>
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.6/quill.snow.css"
       rel="stylesheet"
@@ -231,28 +231,30 @@
           <div id="alert-container"></div>
           <form id="project-form">
             <div class="form-grid">
-              <div class="form-group">
-                <label class="form-label">Status</label>
-                <select id="status" class="form-control">
-                  <option value="to do">To Do</option>
-                  <option value="in progress">In Progress</option>
-                  <option value="waiting for payment">
-                    Waiting for Payment
-                  </option>
-                  <option value="in review">In Review</option>
-                  <option value="revision">Revision</option>
-                  <option value="done">Done</option>
-                </select>
-              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Order Number</label>
+                  <input
+                    type="text"
+                    id="numberOrder"
+                    class="form-control"
+                    readonly
+                  />
+                </div>
 
-              <div class="form-group">
-                <label class="form-label">Order Number</label>
-                <input
-                  type="text"
-                  id="numberOrder"
-                  class="form-control"
-                  readonly
-                />
+                <div class="form-group">
+                  <label class="form-label">Status</label>
+                  <select id="status" class="form-control">
+                    <option value="to do">To Do</option>
+                    <option value="in progress">In Progress</option>
+                    <option value="waiting for payment">
+                      Waiting for Payment
+                    </option>
+                    <option value="in review">In Review</option>
+                    <option value="revision">Revision</option>
+                    <option value="done">Done</option>
+                  </select>
+                </div>
               </div>
 
               <div class="form-group">
@@ -388,7 +390,7 @@
                   <label class="form-label">Create Invoice</label>
                   <button
                     class="btn btn-primary"
-                    onclick="window.open('https://splitbill-alpha.vercel.app/', '_blank')"
+                    onclick="window.open('https://splitbill-alpha.vercel.app/invoice.html', '_blank')"
                   >
                     <i class="uil uil-external-link-alt"></i>
                     Create Invoice
