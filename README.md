@@ -267,3 +267,5 @@ Visit the live application: [https://freelance-management-lyart.vercel.app/](htt
 ---
 
 _Built with ❤️ for freelance designers and project managers_
+
+Update: update mongo_uri
