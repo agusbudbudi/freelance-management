@@ -191,9 +191,9 @@ function renderProjectsTable() {
       (project) => `
                 <tr>
                     <td>
-                        <strong style="color: #3b82f6; white-space: nowrap;">${
-                          project.numberOrder
-                        }</strong>
+                        <strong class="order-number" onclick="editProject('${
+                          project.id
+                        }')">${project.numberOrder}</strong>
                     </td>
                     <td>
                         <div style="font-weight: 500; color: #0f172a;">${
@@ -219,9 +219,9 @@ function renderProjectsTable() {
                     <td>
                         ${
                           project.deliverables
-                            ? `<a href="${project.deliverables}" target="_blank" style="color: #3b82f6; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
-                                <i class="fas fa-external-link-alt" style="font-size: 12px;"></i> 
-                                View Files
+                            ? `<a href="#" onclick="openProjectResultFromTable('${project.id}')" style="color: #3b82f6; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
+                                <i class="uil uil-external-link-alt" style="font-size: 12px;"></i>
+                                See Result
                                </a>`
                             : '<span style="color: #94a3b8;">-</span>'
                         }
@@ -236,12 +236,20 @@ function renderProjectsTable() {
                             <button class="btn btn-secondary btn-sm" onclick="editProject('${
                               project.id
                             }')" title="Edit project">
-                                <i class="fas fa-edit"></i>
+                                <i class="uil uil-edit"></i>
                             </button>
+
+
+                            <button class="btn btn-share btn-sm" onclick="shareProjectToWhatsApp('${
+                              project.id
+                            }')" title="Share to WhatsApp">
+                                <i class="uil uil-whatsapp"></i>
+                            </button>
+
                             <button class="btn btn-danger btn-sm" onclick="deleteProject('${
                               project.id
                             }')" title="Delete project">
-                                <i class="fas fa-trash"></i>
+                               <i class="uil uil-trash"></i>
                             </button>
                         </div>
                     </td>
@@ -292,7 +300,10 @@ function fillProjectForm(project) {
   document.getElementById("projectName").value = project.projectName;
   document.getElementById("clientName").value = project.clientName;
   document.getElementById("clientPhone").value = project.clientPhone || "";
-  document.getElementById("deadline").value = project.deadline;
+  // Convert ISO date to YYYY-MM-DD format for HTML date input
+  document.getElementById("deadline").value = new Date(project.deadline)
+    .toISOString()
+    .split("T")[0];
   document.getElementById("price").value = project.price;
   document.getElementById("quantity").value = project.quantity;
   document.getElementById("discount").value = project.discount || "";
@@ -335,16 +346,41 @@ async function deleteProject(projectId) {
 
 // Show alert
 function showAlert(message, type = "success") {
-  const container = document.getElementById("alert-container");
-  const icon = type === "success" ? "check-circle" : "exclamation-triangle";
-  container.innerHTML = `
-                <div class="alert alert-${type}">
-                    <i class="fas fa-${icon}" style="margin-right: 8px;"></i>
-                    ${message}
-                </div>
-            `;
+  let toastContainer = document.getElementById("toast-container");
+  if (!toastContainer) {
+    toastContainer = document.createElement("div");
+    toastContainer.id = "toast-container";
+    document.body.appendChild(toastContainer);
+  }
+
+  const toast = document.createElement("div");
+  toast.className = `toast toast-${type}`;
+  toast.innerHTML = `
+    <div class="toast-icon">
+      <i class="uil uil-${
+        type === "success" ? "check-circle" : "exclamation-triangle"
+      }"></i>
+    </div>
+    <div class="toast-content">
+      <div class="toast-title">${type === "success" ? "Success" : "Error"}</div>
+      <div class="toast-message">${message}</div>
+    </div>
+    <div class="toast-close" onclick="this.parentElement.remove()">
+      <i class="uil uil-times"></i>
+    </div>
+  `;
+
+  toastContainer.appendChild(toast);
+
   setTimeout(() => {
-    container.innerHTML = "";
+    toast.classList.add("show");
+  }, 100);
+
+  setTimeout(() => {
+    toast.classList.remove("show");
+    setTimeout(() => {
+      toast.remove();
+    }, 300);
   }, 5000);
 }
 
@@ -444,6 +480,41 @@ function initApp() {
 
   // Load projects from API on app start
   loadProjects();
+}
+
+// Open project result page with current project data
+function openProjectResult() {
+  if (editingProjectId) {
+    window.open(`result.html?id=${editingProjectId}`, "_blank");
+  } else {
+    showAlert("No project selected", "error");
+  }
+}
+
+// Open project result page from table row
+function openProjectResultFromTable(projectId) {
+  if (projectId) {
+    window.open(`result.html?id=${projectId}`, "_blank");
+  } else {
+    showAlert("No project selected", "error");
+  }
+}
+
+function shareProjectToWhatsApp(projectId) {
+  const project = projects.find((p) => p.id === projectId);
+  if (project && project.clientPhone && project.clientPhone.trim() !== "") {
+    const resultUrl = `${window.location.origin}/result.html?id=${projectId}`;
+    const message = `Hi ${project.clientName},\n\nThe project result is now available. Please review it at the link below:\n👉 Open Project Result: ${resultUrl}`;
+
+    // Gunakan API WhatsApp supaya emoji tampil
+    const whatsappUrl = `https://api.whatsapp.com/send?phone=${
+      project.clientPhone
+    }&text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, "_blank");
+  } else {
+    showAlert("Client phone number is not available.", "error");
+    console.log("Client phone number is not available.");
+  }
 }
 
 // Start the app

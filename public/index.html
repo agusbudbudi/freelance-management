@@ -60,6 +60,11 @@
               <i class="uil uil-palette"></i>
               Portfolio <span class="status-badge status-review">Soon</span>
             </a>
+            <a href="#" class="nav-item">
+              <i class="uil uil-users-alt"></i>
+              Clients
+              <span class="status-badge status-review">Soon</span>
+            </a>
           </div>
 
           <div class="nav-section">
@@ -67,10 +72,10 @@
             <a
               href="#"
               class="nav-item"
-              onclick="window.open('https://splitbill-alpha.vercel.app/', '_blank')"
+              onclick="window.open('https://splitbill-alpha.vercel.app/invoice.html', '_blank')"
             >
-              <i class="uil uil-external-link-alt"></i>
-              Split Bill
+              <i class="uil uil-invoice"></i>
+              Invoice Split Bill <i class="uil uil-external-link-alt"></i>
             </a>
             <a href="#" class="nav-item">
               <i class="uil uil-calendar-alt"></i>
@@ -189,7 +194,7 @@
               <div class="card-header">
                 <h2 class="card-title">All Projects</h2>
                 <button class="btn btn-primary" onclick="showProjectModal()">
-                  <i class="fas fa-plus"></i>
+                  <i class="uil uil-plus"></i>
                   Add Project
                 </button>
               </div>
@@ -285,7 +290,7 @@
                     type="tel"
                     id="clientPhone"
                     class="form-control"
-                    placeholder="Enter phone number"
+                    placeholder="Enter phone number starting with 62"
                   />
                 </div>
               </div>
@@ -366,10 +371,7 @@
                 </div>
                 <div class="form-group">
                   <label class="form-label">See Result</label>
-                  <button
-                    class="btn btn-primary"
-                    onclick="window.open('result.html', '_blank')"
-                  >
+                  <button class="btn btn-primary" onclick="openProjectResult()">
                     <i class="uil uil-external-link-alt"></i>
                     See Result
                   </button>

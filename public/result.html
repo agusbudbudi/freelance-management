@@ -19,6 +19,7 @@
 
     <link rel="stylesheet" href="css/global.css" />
     <link rel="stylesheet" href="css/result.css" />
+    <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/theme.css" />
 
     <title>Project Completed - Gous Studio</title>
@@ -68,7 +69,7 @@
         <div class="detail-row">
           <span class="detail-label">Status</span>
           <span class="detail-value">
-            <span class="status-badge"
+            <span class="status-badge-container"
               ><i class="uil uil-check-circle"></i> Done</span
             >
           </span>
@@ -103,7 +104,7 @@
       <div class="social-section">
         <h3 class="social-title">Gous Studio</h3>
         <div class="social-grid">
-          <a href="mailto:hello@gousstudio.com" class="social-link">
+          <a href="mailto:agdesign.official@gmail.com" class="social-link">
             <i class="uil uil-envelope"></i>
           </a>
           <a
@@ -114,7 +115,7 @@
             <i class="uil uil-instagram"></i>
           </a>
           <a
-            href="https://wa.me/6281234567890"
+            href="https://wa.me/6285559496968"
             class="social-link"
             target="_blank"
           >
@@ -127,71 +128,6 @@
       </div>
     </div>
 
-    <script>
-      // Sample data - akan diganti dengan data dari dashboard
-      const projectData = {
-        projectName: "Website Design & Development",
-        clientName: "John Doe",
-        deadline: "25 Sept 2025",
-        status: "Done",
-        designResultUrl: "https://drive.google.com/your-design-result",
-        invoiceUrl: "https://invoice.gousstudio.com/inv-001",
-      };
-
-      function openDesignResult() {
-        window.open(projectData.designResultUrl, "_blank");
-      }
-
-      function openInvoice() {
-        window.open(projectData.invoiceUrl, "_blank");
-      }
-
-      // Function to populate data from URL parameters
-      function populateDataFromURL() {
-        const urlParams = new URLSearchParams(window.location.search);
-
-        // Update project info if parameters exist
-        if (urlParams.get("project")) {
-          document.querySelector(
-            ".detail-row:nth-child(1) .detail-value"
-          ).textContent = decodeURIComponent(urlParams.get("project"));
-        }
-
-        if (urlParams.get("client")) {
-          document.querySelector(
-            ".detail-row:nth-child(2) .detail-value"
-          ).textContent = decodeURIComponent(urlParams.get("client"));
-        }
-
-        if (urlParams.get("deadline")) {
-          document.querySelector(
-            ".detail-row:nth-child(3) .detail-value"
-          ).textContent = decodeURIComponent(urlParams.get("deadline"));
-        }
-
-        if (urlParams.get("status")) {
-          document.querySelector(".status-badge").textContent =
-            decodeURIComponent(urlParams.get("status"));
-        }
-
-        // Update URLs
-        if (urlParams.get("design_url")) {
-          projectData.designResultUrl = decodeURIComponent(
-            urlParams.get("design_url")
-          );
-        }
-
-        if (urlParams.get("invoice_url")) {
-          projectData.invoiceUrl = decodeURIComponent(
-            urlParams.get("invoice_url")
-          );
-        }
-      }
-
-      // Load data when page loads
-      window.onload = function () {
-        populateDataFromURL();
-      };
-    </script>
+    <script src="js/result.js"></script>
   </body>
 </html>

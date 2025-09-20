@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const path = require("path");
 require("dotenv").config();
 
 const app = express();
@@ -36,6 +37,9 @@ if (mongoose.connection.readyState === 0) {
     });
 }
 
+// Serve static files from public directory
+app.use(express.static(path.join(__dirname, "../public")));
+
 // Routes
 const projectRoutes = require("./routes/projects");
 app.use("/api/projects", projectRoutes);
@@ -52,16 +56,26 @@ app.get("/api", (req, res) => {
   });
 });
 
+// Serve the main HTML file for any non-API routes
+app.get("*", (req, res) => {
+  if (!req.path.startsWith("/api")) {
+    res.sendFile(path.join(__dirname, "../public/index.html"));
+  }
+});
+
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error("Error:", err.stack);
   res.status(500).json({ error: "Something went wrong!" });
 });
 
-// 404 handler
-app.use("*", (req, res) => {
-  res.status(404).json({ error: "Route not found" });
-});
+// Start server for local development
+const PORT = process.env.PORT || 3000;
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`🚀 Server running on http://localhost:${PORT}`);
+  });
+}
 
 // Export the Express API for Vercel
 module.exports = app;
