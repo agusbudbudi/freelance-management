@@ -176,7 +176,7 @@ function renderProjectsTable() {
                     <tr>
                         <td colspan="8">
                             <div class="empty-state">
-                                <i class="fas fa-folder-open"></i>
+                               <i class="uil uil-folder-open"></i>
                                 <h3>No projects yet</h3>
                                 <p>Click "Add Project" to create your first project</p>
                             </div>
@@ -421,11 +421,65 @@ async function saveProject(formData) {
   }
 }
 
+// Mobile menu functions
+function openMobileSidebar() {
+  const sidebar = document.querySelector(".sidebar");
+  const overlay = document.getElementById("mobile-overlay");
+
+  sidebar.classList.add("open");
+  overlay.classList.add("active");
+
+  // Prevent body scroll when sidebar is open
+  document.body.style.overflow = "hidden";
+}
+
+function closeMobileSidebar() {
+  const sidebar = document.querySelector(".sidebar");
+  const overlay = document.getElementById("mobile-overlay");
+
+  sidebar.classList.remove("open");
+  overlay.classList.remove("active");
+
+  // Restore body scroll
+  document.body.style.overflow = "";
+}
+
 // Initialize app
 function initApp() {
   // Set default date to today
   const today = new Date().toISOString().split("T")[0];
   document.getElementById("deadline").value = today;
+
+  // Mobile menu event listeners
+  const mobileMenuBtns = document.querySelectorAll(".mobile-menu-btn");
+  const sidebarCloseBtn = document.getElementById("sidebar-close-btn");
+  const mobileOverlay = document.getElementById("mobile-overlay");
+  const navItems = document.querySelectorAll(".nav-item");
+
+  // Open sidebar when hamburger button is clicked
+  mobileMenuBtns.forEach((btn) => {
+    btn.addEventListener("click", openMobileSidebar);
+  });
+
+  // Close sidebar when close button is clicked
+  if (sidebarCloseBtn) {
+    sidebarCloseBtn.addEventListener("click", closeMobileSidebar);
+  }
+
+  // Close sidebar when overlay is clicked
+  if (mobileOverlay) {
+    mobileOverlay.addEventListener("click", closeMobileSidebar);
+  }
+
+  // Close sidebar when nav item is clicked (mobile only)
+  navItems.forEach((item) => {
+    item.addEventListener("click", () => {
+      // Only close on mobile (when sidebar has 'open' class)
+      if (document.querySelector(".sidebar").classList.contains("open")) {
+        closeMobileSidebar();
+      }
+    });
+  });
 
   // Add event listeners
   document
@@ -483,7 +537,13 @@ function initApp() {
 }
 
 // Open project result page with current project data
-function openProjectResult() {
+function openProjectResult(event) {
+  // Prevent form submission if called from a button inside the form
+  if (event) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
   if (editingProjectId) {
     window.open(`result.html?id=${editingProjectId}`, "_blank");
   } else {

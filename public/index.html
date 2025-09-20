@@ -23,6 +23,7 @@
 
     <link rel="stylesheet" href="css/global.css" />
     <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/mobile.css" />
     <link rel="stylesheet" href="css/theme.css" />
   </head>
   <body>
@@ -35,6 +36,9 @@
             </div>
             <span>Gous Studio</span>
           </div>
+          <button class="sidebar-close-btn" id="sidebar-close-btn">
+            <i class="uil uil-multiply"></i>
+          </button>
         </div>
 
         <div class="sidebar-nav">
@@ -89,16 +93,24 @@
         </div>
       </div>
 
+      <!-- Mobile Overlay -->
+      <div class="mobile-overlay" id="mobile-overlay"></div>
+
       <div class="main-content">
         <!-- Dashboard Section -->
         <div id="dashboard-section">
           <div class="content-header">
             <div class="header-top">
-              <div>
-                <h1 class="page-title">Dashboard</h1>
-                <p class="page-subtitle">
-                  Track your design projects and performance
-                </p>
+              <div class="mobile-header">
+                <button class="mobile-menu-btn" id="mobile-menu-btn">
+                  <i class="fas fa-bars"></i>
+                </button>
+                <div>
+                  <h1 class="page-title">Dashboard</h1>
+                  <p class="page-subtitle">
+                    Track your design projects and performance 🚀
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -176,16 +188,15 @@
         <div id="projects-section" class="hidden">
           <div class="content-header">
             <div class="header-top">
-              <div>
-                <h1 class="page-title">Projects</h1>
-                <p class="page-subtitle">Manage your design projects</p>
-              </div>
-              <!-- <div class="header-actions">
-                <button class="btn btn-primary" onclick="showProjectModal()">
-                  <i class="fas fa-plus"></i>
-                  Add Project
+              <div class="mobile-header">
+                <button class="mobile-menu-btn" id="mobile-menu-btn-projects">
+                  <i class="fas fa-bars"></i>
                 </button>
-              </div> -->
+                <div>
+                  <h1 class="page-title">Projects</h1>
+                  <p class="page-subtitle">Manage your design projects 👨🏻‍💻</p>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -371,9 +382,13 @@
                 </div>
                 <div class="form-group">
                   <label class="form-label">See Result</label>
-                  <button class="btn btn-primary" onclick="openProjectResult()">
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    onclick="openProjectResult(event)"
+                  >
                     <i class="uil uil-external-link-alt"></i>
-                    See Result
+                    See
                   </button>
                 </div>
               </div>
@@ -391,11 +406,12 @@
                 <div class="form-group">
                   <label class="form-label">Create Invoice</label>
                   <button
+                    type="button"
                     class="btn btn-primary"
                     onclick="window.open('https://splitbill-alpha.vercel.app/invoice.html', '_blank')"
                   >
                     <i class="uil uil-external-link-alt"></i>
-                    Create Invoice
+                    Create
                   </button>
                 </div>
               </div>
