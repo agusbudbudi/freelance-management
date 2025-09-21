@@ -56,6 +56,10 @@
               <i class="uil uil-folder-open"></i>
               Projects
             </a>
+            <a href="#" class="nav-item" onclick="showSection('clients')">
+              <i class="uil uil-users-alt"></i>
+              Clients
+            </a>
             <a href="#" class="nav-item">
               <i class="uil uil-pricetag-alt"></i>
               Pricelist <span class="status-badge status-review">Soon</span>
@@ -63,11 +67,6 @@
             <a href="#" class="nav-item">
               <i class="uil uil-palette"></i>
               Portfolio <span class="status-badge status-review">Soon</span>
-            </a>
-            <a href="#" class="nav-item">
-              <i class="uil uil-users-alt"></i>
-              Clients
-              <span class="status-badge status-review">Soon</span>
             </a>
           </div>
 
@@ -231,6 +230,135 @@
             </div>
           </div>
         </div>
+
+        <!-- Clients Section -->
+        <div id="clients-section" class="hidden">
+          <div class="content-header">
+            <div class="header-top">
+              <div class="mobile-header">
+                <button class="mobile-menu-btn" id="mobile-menu-btn-clients">
+                  <i class="fas fa-bars"></i>
+                </button>
+                <div>
+                  <h1 class="page-title">Clients</h1>
+                  <p class="page-subtitle">Manage your client database 👥</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="content-body">
+            <div class="content-card">
+              <div class="card-header">
+                <h2 class="card-title">All Clients</h2>
+                <button class="btn btn-primary" onclick="showClientModal()">
+                  <i class="uil uil-plus"></i>
+                  Add Client
+                </button>
+              </div>
+              <div class="card-body">
+                <div class="table-container">
+                  <table class="table" id="clients-table">
+                    <thead>
+                      <tr>
+                        <th>Client ID</th>
+                        <th>Client Name</th>
+                        <th>Contact</th>
+                        <th>Address</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody id="clients-tbody"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Client Modal -->
+    <div id="client-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title" id="client-modal-title">Add New Client</h2>
+          <button class="close" onclick="closeClientModal()">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div id="client-alert-container"></div>
+          <form id="client-form">
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="form-label">Client ID</label>
+                <input
+                  type="text"
+                  id="clientId"
+                  class="form-control"
+                  readonly
+                />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Client Name *</label>
+                <input
+                  type="text"
+                  id="clientNameField"
+                  class="form-control"
+                  required
+                  placeholder="Enter client name"
+                />
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Phone Number</label>
+                  <input
+                    type="tel"
+                    id="clientPhoneField"
+                    class="form-control"
+                    placeholder="Enter phone number"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Email Address</label>
+                  <input
+                    type="email"
+                    id="clientEmail"
+                    class="form-control"
+                    placeholder="Enter email address"
+                  />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Client Address</label>
+                <textarea
+                  id="clientAddress"
+                  class="form-control"
+                  rows="3"
+                  placeholder="Enter client address"
+                ></textarea>
+              </div>
+
+              <div class="modal-buttons-sticky">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  onclick="closeClientModal()"
+                >
+                  Cancel
+                </button>
+                <button type="submit" class="btn btn-primary">
+                  <i class="fas fa-save"></i>
+                  Save Client
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
 
@@ -287,13 +415,19 @@
               <div class="form-row">
                 <div class="form-group">
                   <label class="form-label">Client Name *</label>
-                  <input
-                    type="text"
-                    id="clientName"
+                  <select
+                    id="projectClientNameSelect"
                     class="form-control"
                     required
-                    placeholder="Enter client name"
-                  />
+                  >
+                    <option value="">Select client</option>
+                  </select>
+
+                  <!-- NEXT IMPLEMENTATION -->
+                  <!-- <button class="btn btn-primary" onclick="showClientModal()">
+                    <i class="uil uil-plus"></i>
+                    Add Client
+                  </button> -->
                 </div>
                 <div class="form-group">
                   <label class="form-label">Client Phone</label>
@@ -436,6 +570,8 @@
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.6/quill.min.js"></script>
+
+    <script src="js/client.js"></script>
     <script src="js/script.js"></script>
   </body>
 </html>

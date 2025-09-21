@@ -346,13 +346,14 @@
   background: var(--bg-hover);
 }
 
-.order-number {
+.link {
   color: var(--border-focus);
+  text-decoration: none;
   cursor: pointer;
   white-space: nowrap;
 }
 
-.order-number:hover {
+.link:hover {
   cursor: pointer;
   text-decoration: underline;
 }

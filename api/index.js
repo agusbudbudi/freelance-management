@@ -42,7 +42,9 @@ app.use(express.static(path.join(__dirname, "../public")));
 
 // Routes
 const projectRoutes = require("./routes/projects");
+const clientRoutes = require("./routes/clients");
 app.use("/api/projects", projectRoutes);
+app.use("/api/clients", clientRoutes);
 
 // Health check endpoint
 app.get("/api", (req, res) => {
@@ -51,6 +53,7 @@ app.get("/api", (req, res) => {
     version: "1.0.0",
     endpoints: {
       projects: "/api/projects",
+      clients: "/api/clients",
       dashboard: "/api/projects/stats/dashboard",
     },
   });
