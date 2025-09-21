@@ -133,15 +133,15 @@
 }
 
 .content-body {
-  padding: 32px;
+  padding: 24px;
 }
 
 /* Stats Cards */
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 24px;
-  margin-bottom: 32px;
+  gap: 12px;
+  margin-bottom: 24px;
 }
 
 .stat-card {
@@ -177,7 +177,7 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 16px;
+  /* margin-bottom: 16px; */
 }
 
 .stat-icon {
@@ -205,7 +205,7 @@
 }
 
 .stat-number {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 700;
   color: var(--text-primary);
   margin-bottom: 10px;
@@ -461,13 +461,6 @@
   margin: 0;
 }
 
-/* .modal-body {
-  padding: 24px;
-  max-height: calc(90vh - 140px);
-  overflow-y: auto;
-  padding-bottom: 0; /* Add space for sticky buttons 
-} */
-
 .modal-body {
   padding: 24px;
   max-height: calc(90vh - 140px);
@@ -571,6 +564,15 @@ select.form-control {
   appearance: none;
 }
 
+.form-control.readonly {
+  font-weight: 700;
+  border: none;
+}
+
+.form-control.readonly:focus {
+  box-shadow: none;
+}
+
 /* Utilities */
 .hidden {
   display: none !important;
@@ -606,6 +608,11 @@ select.form-control {
 .empty-state h3 {
   font-size: 18px;
   margin-bottom: 8px;
+  color: var(--empty-state-text);
+}
+
+.empty-state p {
+  font-size: 14px;
   color: var(--empty-state-text);
 }
 

@@ -35,8 +35,13 @@ async function apiRequest(endpoint, options = {}) {
 async function loadProjects() {
   try {
     projects = await apiRequest("/projects");
+    // Make projects available globally for dashboard.js
+    window.projects = projects;
     renderProjectsTable();
-    updateDashboard();
+    // Call dashboard update function if it exists
+    if (window.updateDashboard) {
+      window.updateDashboard();
+    }
   } catch (error) {
     showAlert("Failed to load projects: " + error.message, "error");
   }
@@ -119,41 +124,32 @@ function showSection(section) {
   });
   document.getElementById(`${section}-section`).classList.remove("hidden");
 
+  // Update sidebar active state
   document.querySelectorAll(".nav-item").forEach((item) => {
     item.classList.remove("active");
   });
-  event.target.classList.add("active");
+
+  // Find and activate the correct nav item
+  const navItems = document.querySelectorAll(".nav-item");
+  navItems.forEach((item) => {
+    if (
+      item.onclick &&
+      item.onclick.toString().includes(`showSection('${section}')`)
+    ) {
+      item.classList.add("active");
+    }
+  });
 
   if (section === "dashboard") {
-    updateDashboard();
+    // Call dashboard update function if it exists
+    if (window.updateDashboard) {
+      window.updateDashboard();
+    }
   } else if (section === "projects") {
     renderProjectsTable();
   } else if (section === "clients") {
     renderClientsTable();
   }
-}
-
-// Update dashboard statistics
-function updateDashboard() {
-  const total = projects.length;
-  const ongoing = projects.filter((p) => !["done"].includes(p.status)).length;
-  const completed = projects.filter((p) => p.status === "done").length;
-
-  const ongoingRevenue = projects
-    .filter((p) => !["done"].includes(p.status))
-    .reduce((sum, p) => sum + (p.totalPrice || 0), 0);
-
-  const completedRevenue = projects
-    .filter((p) => p.status === "done")
-    .reduce((sum, p) => sum + (p.totalPrice || 0), 0);
-
-  document.getElementById("total-projects").textContent = total;
-  document.getElementById("ongoing-projects").textContent = ongoing;
-  document.getElementById("completed-projects").textContent = completed;
-  document.getElementById("ongoing-revenue").textContent =
-    formatCurrency(ongoingRevenue);
-  document.getElementById("completed-revenue").textContent =
-    formatCurrency(completedRevenue);
 }
 
 // Get status badge class
@@ -346,8 +342,13 @@ async function deleteProject(projectId) {
 
       // Remove from local array
       projects = projects.filter((p) => p.id !== projectId);
+      // Update global projects for dashboard
+      window.projects = projects;
       renderProjectsTable();
-      updateDashboard();
+      // Call dashboard update function if it exists
+      if (window.updateDashboard) {
+        window.updateDashboard();
+      }
       showAlert("Project deleted successfully!");
     } catch (error) {
       showAlert("Failed to delete project: " + error.message, "error");
@@ -421,8 +422,13 @@ async function saveProject(formData) {
       showAlert("Project created successfully!");
     }
 
+    // Update global projects for dashboard
+    window.projects = projects;
     renderProjectsTable();
-    updateDashboard();
+    // Call dashboard update function if it exists
+    if (window.updateDashboard) {
+      window.updateDashboard();
+    }
 
     setTimeout(() => {
       closeProjectModal();

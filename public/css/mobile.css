@@ -24,6 +24,19 @@
   .stats-grid {
     grid-template-columns: 1fr;
     gap: 10px;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .chart-section {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
   }
 
   .form-row {
@@ -64,6 +77,7 @@
     overflow-y: auto;
     padding-bottom: 90px; /* Space for sticky buttons */
     max-height: none; /* Remove desktop height constraint */
+    margin-bottom: 20px;
   }
 
   .modal-buttons-sticky {
@@ -97,5 +111,9 @@
 
   .social-section {
     padding: 20px;
+  }
+
+  .project-item {
+    padding: 12px 0;
   }
 }
