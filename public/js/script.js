@@ -128,6 +128,8 @@ function showSection(section) {
     updateDashboard();
   } else if (section === "projects") {
     renderProjectsTable();
+  } else if (section === "clients") {
+    renderClientsTable();
   }
 }
 
@@ -191,7 +193,7 @@ function renderProjectsTable() {
       (project) => `
                 <tr>
                     <td>
-                        <strong class="order-number" onclick="editProject('${
+                        <strong class="link" onclick="editProject('${
                           project.id
                         }')">${project.numberOrder}</strong>
                     </td>
@@ -298,7 +300,16 @@ function resetProjectForm() {
 function fillProjectForm(project) {
   document.getElementById("numberOrder").value = project.numberOrder;
   document.getElementById("projectName").value = project.projectName;
-  document.getElementById("clientName").value = project.clientName;
+
+  // Set client dropdown selection
+  const clientSelect = document.getElementById("projectClientNameSelect");
+  for (let i = 0; i < clientSelect.options.length; i++) {
+    if (clientSelect.options[i].dataset.clientName === project.clientName) {
+      clientSelect.selectedIndex = i;
+      break;
+    }
+  }
+
   document.getElementById("clientPhone").value = project.clientPhone || "";
   // Convert ISO date to YYYY-MM-DD format for HTML date input
   document.getElementById("deadline").value = new Date(project.deadline)
@@ -498,10 +509,16 @@ function initApp() {
     .addEventListener("submit", function (e) {
       e.preventDefault();
 
+      // Get client name from selected dropdown option
+      const clientSelect = document.getElementById("projectClientNameSelect");
+      const selectedOption = clientSelect.options[clientSelect.selectedIndex];
+      const clientName =
+        selectedOption.dataset.clientName || selectedOption.textContent;
+
       const formData = {
         numberOrder: document.getElementById("numberOrder").value,
         projectName: document.getElementById("projectName").value,
-        clientName: document.getElementById("clientName").value,
+        clientName: clientName,
         clientPhone: document.getElementById("clientPhone").value,
         deadline: document.getElementById("deadline").value,
         brief: quill ? quill.root.innerHTML : "",
@@ -577,5 +594,47 @@ function shareProjectToWhatsApp(projectId) {
   }
 }
 
-// Start the app
-document.addEventListener("DOMContentLoaded", initApp);
+async function loadClientsForProject() {
+  try {
+    const response = await fetch("/api/clients");
+    const clients = await response.json();
+
+    const select = document.getElementById("projectClientNameSelect");
+    if (!select) return; // Exit if element doesn't exist
+
+    // Clear existing options except the first one
+    while (select.children.length > 1) {
+      select.removeChild(select.lastChild);
+    }
+
+    clients.forEach((client) => {
+      const option = document.createElement("option");
+      option.value = client._id;
+      option.textContent = client.clientName;
+      // Store client data in the option for easy access
+      option.dataset.clientName = client.clientName;
+      option.dataset.clientPhone = client.phoneNumber || "";
+      select.appendChild(option);
+    });
+
+    // Add event listener for client selection (only once)
+    if (!select.hasAttribute("data-listener-added")) {
+      select.addEventListener("change", function () {
+        const selectedOption = this.options[this.selectedIndex];
+        if (selectedOption.value) {
+          // Populate client phone field when existing client is selected
+          document.getElementById("clientPhone").value =
+            selectedOption.dataset.clientPhone || "";
+        }
+      });
+      select.setAttribute("data-listener-added", "true");
+    }
+  } catch (error) {
+    console.error("Failed to load clients for project:", error);
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  initApp();
+  loadClientsForProject();
+});
