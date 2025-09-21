@@ -1,0 +1,199 @@
+/* Chart Section */
+.chart-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.chart-card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  border: 1px solid #f1f5f9;
+  width: 100%;
+}
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.chart-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+.chart-subtitle,
+.recent-subtitle {
+  color: #64748b;
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+.chart-container {
+  position: relative;
+  /* height: 280px; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chart-legend {
+  margin-top: 24px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.legend-color {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+}
+
+.legend-color.completed {
+  background: linear-gradient(135deg, #10b981, #059669);
+}
+
+.legend-color.ongoing {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+}
+
+.legend-text {
+  font-size: 14px;
+  color: #374151;
+  font-weight: 500;
+}
+
+.legend-percentage {
+  margin-left: auto;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.legend-percentage.completed {
+  color: #059669;
+}
+
+.legend-percentage.ongoing {
+  color: #d97706;
+}
+
+/* Recent Projects */
+.recent-projects {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  border: 1px solid #f1f5f9;
+}
+
+.recent-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.recent-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+.view-all-btn {
+  color: #3b82f6;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  transition: background 0.2s ease;
+  white-space: nowrap;
+}
+
+.view-all-btn:hover {
+  background: #f1f5f9;
+}
+
+.project-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.project-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px;
+  border-radius: 12px;
+  transition: background 0.2s ease;
+}
+
+.project-item:hover {
+  background: #f8fafc;
+}
+
+.project-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.project-info {
+  flex: 1;
+}
+
+.project-name {
+  font-weight: 600;
+  color: #0f172a;
+  margin-bottom: 4px;
+}
+
+.project-client {
+  color: #64748b;
+  font-size: 14px;
+}
+
+.project-status {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.status-progress {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.status-review {
+  background: #e0e7ff;
+  color: #5b21b6;
+}
+
+.status-done {
+  background: #d1fae5;
+  color: #047857;
+}

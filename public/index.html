@@ -23,6 +23,7 @@
 
     <link rel="stylesheet" href="css/global.css" />
     <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/dashboard.css" />
     <link rel="stylesheet" href="css/mobile.css" />
     <link rel="stylesheet" href="css/theme.css" />
   </head>
@@ -180,6 +181,77 @@
                 </div>
               </div>
             </div>
+
+            <!-- Chart and Recent Projects Section -->
+            <div class="chart-section">
+              <div class="chart-card">
+                <div class="chart-header">
+                  <div>
+                    <h2 class="chart-title">Project Completion Progress</h2>
+                    <p class="chart-subtitle">
+                      Overview of completed vs ongoing projects
+                    </p>
+                  </div>
+                </div>
+
+                <div class="chart-container">
+                  <canvas id="progressChart"></canvas>
+                  <div
+                    id="empty-chart"
+                    class="empty-state"
+                    style="display: none"
+                  >
+                    <i class="uil uil-chart-pie-alt"></i>
+                    <h3>No projects yet</h3>
+                    <p>Add your first project to see progress analytics</p>
+                  </div>
+                </div>
+
+                <div class="chart-legend" id="chart-legend">
+                  <div class="legend-item">
+                    <div class="legend-color completed"></div>
+                    <span class="legend-text">Completed Projects</span>
+                    <span
+                      class="legend-percentage completed"
+                      id="completed-percentage"
+                      >0%</span
+                    >
+                  </div>
+                  <div class="legend-item">
+                    <div class="legend-color ongoing"></div>
+                    <span class="legend-text">Ongoing Projects</span>
+                    <span
+                      class="legend-percentage ongoing"
+                      id="ongoing-percentage"
+                      >0%</span
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <div class="recent-projects">
+                <div class="recent-header">
+                  <div>
+                    <h2 class="recent-title">Recent Projects</h2>
+                    <p class="recent-subtitle">
+                      Explore recent projects with quick access
+                    </p>
+                  </div>
+                  <a
+                    href="#"
+                    class="view-all-btn"
+                    onclick="showSection('projects')"
+                  >
+                    View all
+                    <i class="uil uil-angle-right-b"></i>
+                  </a>
+                </div>
+
+                <div class="project-list" id="recent-projects-list">
+                  <!-- Recent projects will be populated here -->
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -296,7 +368,7 @@
                 <input
                   type="text"
                   id="clientId"
-                  class="form-control"
+                  class="form-control readonly"
                   readonly
                 />
               </div>
@@ -319,7 +391,7 @@
                     type="tel"
                     id="clientPhoneField"
                     class="form-control"
-                    placeholder="Enter phone number"
+                    placeholder="Enter phone number starting with 62"
                   />
                 </div>
                 <div class="form-group">
@@ -381,7 +453,7 @@
                   <input
                     type="text"
                     id="numberOrder"
-                    class="form-control"
+                    class="form-control readonly"
                     readonly
                   />
                 </div>
@@ -570,8 +642,10 @@
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.6/quill.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
 
     <script src="js/client.js"></script>
+    <script src="js/dashboard.js"></script>
     <script src="js/script.js"></script>
   </body>
 </html>
