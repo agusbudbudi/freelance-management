@@ -82,7 +82,7 @@ function generateProjectNumber() {
       : 0;
 
   const increment = String(maxIncrement + 1).padStart(3, "0");
-  return `AGD-${dateStr}-${increment}`;
+  return `FM-${dateStr}-${increment}`;
 }
 
 // Format currency
@@ -637,6 +637,80 @@ async function loadClientsForProject() {
     }
   } catch (error) {
     console.error("Failed to load clients for project:", error);
+  }
+}
+
+function handleAddClientClick(event) {
+  event.preventDefault();
+  event.stopPropagation();
+
+  // Store current project form state
+  const projectFormData = {
+    numberOrder: document.getElementById("numberOrder").value,
+    projectName: document.getElementById("projectName").value,
+    status: document.getElementById("status").value,
+    deadline: document.getElementById("deadline").value,
+    price: document.getElementById("price").value,
+    quantity: document.getElementById("quantity").value,
+    discount: document.getElementById("discount").value,
+    deliverables: document.getElementById("deliverables").value,
+    invoice: document.getElementById("invoice").value,
+  };
+
+  // Store in sessionStorage
+  sessionStorage.setItem("tempProjectData", JSON.stringify(projectFormData));
+
+  // Show client modal
+  showClientModal();
+}
+
+// Modify closeClientModal to handle returning to project form
+function closeClientModal() {
+  const modal = document.getElementById("client-modal");
+  modal.style.display = "none";
+  document.body.style.overflow = "auto";
+
+  // Restore project form data if exists
+  const savedData = sessionStorage.getItem("tempProjectData");
+  if (savedData) {
+    const projectFormData = JSON.parse(savedData);
+    Object.keys(projectFormData).forEach((key) => {
+      const element = document.getElementById(key);
+      if (element) {
+        element.value = projectFormData[key];
+      }
+    });
+    sessionStorage.removeItem("tempProjectData");
+  }
+
+  // Refresh client select options
+  updateClientSelectOptions();
+}
+
+// Add this function to update client select options
+function updateClientSelectOptions() {
+  const select = document.getElementById("projectClientNameSelect");
+  if (!select) return;
+
+  const currentValue = select.value;
+
+  // Clear existing options except the first one
+  while (select.options.length > 1) {
+    select.remove(1);
+  }
+
+  // Add client options
+  clients.forEach((client) => {
+    const option = new Option(client.clientName, client.id);
+    select.add(option);
+  });
+
+  // Restore selected value if it still exists
+  if (
+    currentValue &&
+    [...select.options].some((opt) => opt.value === currentValue)
+  ) {
+    select.value = currentValue;
   }
 }
 
