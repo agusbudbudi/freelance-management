@@ -10,14 +10,19 @@ function formatCurrency(amount) {
   }).format(amount);
 }
 
-// Get project avatar initials
-function getProjectInitials(projectName) {
-  return projectName
-    .split(" ")
-    .map((word) => word.charAt(0))
-    .slice(0, 2)
-    .join("")
-    .toUpperCase();
+// Get project avatar from random avatar service
+function getProjectInitials(projectName, clientName) {
+  // Generate a consistent random number based on client name only
+  // So all projects from the same client will have the same avatar
+  let hash = 0;
+  for (let i = 0; i < clientName.length; i++) {
+    const char = clientName.charCodeAt(i);
+    hash = (hash << 5) - hash + char;
+    hash = hash & hash; // Convert to 32bit integer
+  }
+  // Use absolute value and limit to 1-100 range
+  const avatarNumber = Math.abs(hash % 100) + 1;
+  return `https://avatar.iran.liara.run/public/${avatarNumber}`;
 }
 
 // Get status class
@@ -181,8 +186,11 @@ function updateRecentProjects(projectsData = []) {
                 <div class="project-item" onclick="editProject('${
                   project.id
                 }')" style="cursor: pointer;">
-                    <div class="project-avatar">
-                        ${getProjectInitials(project.projectName)}
+                    <div class="project-avatar" style="background: none; padding: 0;">
+                        <img src="${getProjectInitials(
+                          project.projectName,
+                          project.clientName
+                        )}" alt="Avatar" style="width: 100%; height: 100%; border-radius: 12px; object-fit: cover;">
                     </div>
                     <div class="project-info">
                         <div class="project-name">${project.projectName}</div>
