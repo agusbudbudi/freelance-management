@@ -101,9 +101,11 @@ function renderClientsTable() {
 
 // Show client modal
 function showClientModal(clientId = null) {
-  editingClientId = clientId;
-  const modal = document.getElementById("client-modal");
+  const clientModal = document.getElementById("client-modal");
+  const projectModal = document.getElementById("project-modal");
   const title = document.getElementById("client-modal-title");
+
+  editingClientId = clientId;
 
   if (clientId) {
     title.textContent = "Edit Client";
@@ -120,12 +122,43 @@ function showClientModal(clientId = null) {
     document.getElementById("clientId").value = newId;
   }
 
-  modal.style.display = "block";
+  // Keep project modal visible but dim it
+  if (projectModal) {
+    projectModal.style.opacity = "1";
+  }
+
+  clientModal.style.display = "block";
+  document.body.style.overflow = "hidden";
 }
 
 // Close client modal
 function closeClientModal() {
-  document.getElementById("client-modal").style.display = "none";
+  const clientModal = document.getElementById("client-modal");
+  const projectModal = document.getElementById("project-modal");
+
+  // Restore project modal opacity
+  if (projectModal) {
+    projectModal.style.opacity = "1";
+  }
+
+  clientModal.style.display = "none";
+  editingClientId = null;
+
+  // Restore project form data if exists
+  const savedData = sessionStorage.getItem("tempProjectData");
+  if (savedData) {
+    const projectFormData = JSON.parse(savedData);
+    Object.keys(projectFormData).forEach((key) => {
+      const element = document.getElementById(key);
+      if (element) {
+        element.value = projectFormData[key];
+      }
+    });
+    sessionStorage.removeItem("tempProjectData");
+  }
+
+  // Refresh client select options
+  loadClientsForProject();
 }
 
 // Reset client form
