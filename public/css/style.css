@@ -528,6 +528,7 @@ table tbody tr:last-child td {
   font-weight: 500;
   color: var(--text-label);
   margin-bottom: 8px;
+  white-space: nowrap;
 }
 
 .form-control {

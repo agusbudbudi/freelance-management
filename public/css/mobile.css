@@ -47,6 +47,10 @@
     grid-template-columns: 1fr;
   }
 
+  .form-grid {
+    padding-bottom: 80px;
+  }
+
   .content-body {
     padding: 10px;
   }
@@ -79,7 +83,6 @@
   .modal-body {
     flex: 1;
     overflow-y: auto;
-    padding-bottom: 90px; /* Space for sticky buttons */
     max-height: none; /* Remove desktop height constraint */
     margin-bottom: 20px;
     height: auto;
