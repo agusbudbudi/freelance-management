@@ -8,6 +8,7 @@ let deliverablesEditor = null;
 let editorsInitialized = false;
 let editingServiceId = null;
 let isLoading = false;
+let serviceSearchManager = null;
 
 // Initialize service functionality
 document.addEventListener("DOMContentLoaded", function () {
@@ -33,6 +34,29 @@ function initializeServiceSection() {
   if (serviceForm) {
     serviceForm.addEventListener("submit", handleServiceSubmit);
   }
+
+  // Initialize search functionality
+  initializeServiceSearch();
+}
+
+// Initialize service search
+function initializeServiceSearch() {
+  if (typeof SearchManager !== "undefined") {
+    serviceSearchManager = new SearchManager({
+      containerId: "service-search-container",
+      placeholder: "Search services by name...",
+      searchFields: ["serviceName"],
+      onSearch: handleServiceSearch,
+      debounceDelay: 300,
+      showResultCount: false,
+      clearable: true,
+    });
+  }
+}
+
+// Handle service search results
+function handleServiceSearch(filteredData, searchTerm) {
+  renderServicesTable(filteredData);
 }
 
 // Generate service ID
@@ -414,18 +438,33 @@ async function handleServiceSubmit(event) {
 }
 
 // Render services table
-function renderServicesTable() {
+function renderServicesTable(dataToRender = null) {
   const tbody = document.getElementById("services-tbody");
   if (!tbody) return;
 
-  if (services.length === 0) {
+  // Use filtered data if provided, otherwise use all services
+  const servicesToRender = dataToRender || services;
+
+  if (servicesToRender.length === 0) {
+    const isSearchActive =
+      serviceSearchManager && serviceSearchManager.getSearchTerm();
     tbody.innerHTML = `
              <tr>
                 <td colspan="7">
                     <div class="empty-state">
-                         <i class="uil uil-package"></i>
-                         <h3>No services yet</h3>
-                         <p>Click "Add Service" to create your first service</p>
+                         <i class="uil uil-${
+                           isSearchActive ? "search" : "package"
+                         }"></i>
+                         <h3>${
+                           isSearchActive
+                             ? "No services found"
+                             : "No services yet"
+                         }</h3>
+                         <p>${
+                           isSearchActive
+                             ? "Try adjusting your search terms"
+                             : 'Click "Add Service" to create your first service'
+                         }</p>
                     </div>
                 </td>
             </tr>
@@ -433,7 +472,7 @@ function renderServicesTable() {
     return;
   }
 
-  tbody.innerHTML = services
+  tbody.innerHTML = servicesToRender
     .map(
       (service) => `
         <tr>
@@ -574,6 +613,11 @@ async function loadServices() {
   try {
     services = await apiRequest("/services");
     renderServicesTable();
+
+    // Update search manager with new data
+    if (serviceSearchManager) {
+      serviceSearchManager.setData(services);
+    }
   } catch (error) {
     showAlert("Failed to load services: " + error.message, "error");
   }
@@ -613,6 +657,12 @@ async function saveService(formData) {
     }
 
     renderServicesTable();
+
+    // Update search manager with new data
+    if (serviceSearchManager) {
+      serviceSearchManager.setData(services);
+    }
+
     setTimeout(() => {
       closeServiceModal();
     }, 1500);
@@ -638,6 +688,12 @@ async function deleteService(serviceId) {
 
       services = services.filter((s) => s.id !== serviceId);
       renderServicesTable();
+
+      // Update search manager with new data
+      if (serviceSearchManager) {
+        serviceSearchManager.setData(services);
+      }
+
       showAlert("Service deleted successfully!");
     } catch (error) {
       showAlert("Failed to delete service: " + error.message, "error");

@@ -22,12 +22,16 @@
   }
 
   .stats-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 10px;
     margin-left: 0;
     margin-right: 0;
     padding-left: 0;
     padding-right: 0;
+  }
+
+  .stat-card {
+    padding: 18px 20px;
   }
 
   .chart-section {
@@ -78,6 +82,7 @@
     padding-bottom: 90px; /* Space for sticky buttons */
     max-height: none; /* Remove desktop height constraint */
     margin-bottom: 20px;
+    height: auto;
   }
 
   .modal-buttons-sticky {
