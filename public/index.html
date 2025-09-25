@@ -90,6 +90,10 @@
               <i class="uil uil-chart"></i>
               Reports <span class="status-badge status-review">Soon</span>
             </a>
+            <a href="#" class="nav-item">
+              <i class="uil uil-setting"></i>
+              Settings <span class="status-badge status-review">Soon</span>
+            </a>
           </div>
         </div>
       </div>
@@ -489,7 +493,7 @@
 
     <!-- Project Modal -->
     <div id="project-modal" class="modal">
-      <div class="modal-content">
+      <div class="modal-content project-modal-content">
         <div class="modal-header">
           <h2 class="modal-title" id="modal-title">Add New Project</h2>
           <button class="close" onclick="closeProjectModal()">
@@ -499,200 +503,200 @@
         <div class="modal-body">
           <div id="alert-container"></div>
           <form id="project-form">
-            <div class="form-grid">
-              <div class="form-row">
-                <div class="form-group">
-                  <label class="form-label">Order Number</label>
-                  <input
-                    type="text"
-                    id="numberOrder"
-                    class="form-control readonly"
-                    readonly
-                  />
+            <div class="project-form-layout">
+              <!-- Main Content Area -->
+              <div class="project-main-content">
+                <!-- Project Information Section -->
+                <div class="project-section">
+                  <h3 class="project-section-title">Project Information</h3>
+                  <div class="form-group">
+                    <label class="form-label">Project Name *</label>
+                    <input
+                      type="text"
+                      id="projectName"
+                      class="form-control"
+                      required
+                      placeholder="Enter project name"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Project Brief</label>
+                    <div id="editor"></div>
+                    <input type="hidden" id="brief" />
+                  </div>
                 </div>
 
-                <div class="form-group">
-                  <label class="form-label">Status</label>
-                  <select id="status" class="form-control">
-                    <option value="to do">To Do</option>
-                    <option value="in progress">In Progress</option>
-                    <option value="waiting for payment">
-                      Waiting for Payment
-                    </option>
-                    <option value="in review">In Review</option>
-                    <option value="revision">Revision</option>
-                    <option value="done">Done</option>
-                  </select>
+                <!-- Pricing Section -->
+                <div class="project-section">
+                  <h3 class="project-section-title">Pricing</h3>
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label class="form-label">Price (Rp) *</label>
+                      <input
+                        type="number"
+                        id="price"
+                        class="form-control"
+                        min="0"
+                        required
+                        placeholder="0"
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">Quantity *</label>
+                      <input
+                        type="number"
+                        id="quantity"
+                        class="form-control"
+                        min="1"
+                        value="1"
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label class="form-label">Discount (Rp)</label>
+                      <input
+                        type="number"
+                        id="discount"
+                        class="form-control"
+                        min="0"
+                        placeholder="0"
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">Total Price</label>
+                      <input
+                        type="text"
+                        id="totalPrice"
+                        class="form-control"
+                        readonly
+                        placeholder="Rp 0"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Deliverables Section -->
+                <div class="project-section">
+                  <h3 class="project-section-title">Deliverables</h3>
+                  <div class="form-row-button">
+                    <div class="form-group">
+                      <label class="form-label">Deliverables Link</label>
+                      <input
+                        type="url"
+                        id="deliverables"
+                        class="form-control"
+                        placeholder="https://drive.google.com/..."
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">See Result</label>
+                      <button
+                        type="button"
+                        class="btn btn-primary"
+                        onclick="openProjectResult(event)"
+                      >
+                        <i class="uil uil-external-link-alt"></i>
+                        See
+                      </button>
+                    </div>
+                  </div>
+                  <div class="form-row-button">
+                    <div class="form-group">
+                      <label class="form-label">Invoice Link</label>
+                      <input
+                        type="url"
+                        id="invoice"
+                        class="form-control"
+                        placeholder="https://splitbill-alpha.vercel.app/..."
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">Create Invoice</label>
+                      <button
+                        type="button"
+                        class="btn btn-primary"
+                        onclick="window.open('https://splitbill-alpha.vercel.app/invoice.html', '_blank')"
+                      >
+                        <i class="uil uil-external-link-alt"></i>
+                        Create
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              <div class="form-group">
-                <label class="form-label">Project Name *</label>
-                <input
-                  type="text"
-                  id="projectName"
-                  class="form-control"
-                  required
-                  placeholder="Enter project name"
-                />
-              </div>
-
-              <div class="form-row">
-                <div class="form-group">
-                  <label class="form-label">Client Name *</label>
-                  <select
-                    id="projectClientNameSelect"
-                    class="form-control"
-                    required
-                  >
-                    <option value="">Select client</option>
-                  </select>
-
-                  <!-- <div>
-                    <button
-                      type="button"
-                      class="btn btn-primary"
-                      onclick="handleAddClientClick(event)"
+              <!-- Sidebar -->
+              <div class="project-sidebar">
+                <div class="project-section">
+                  <!-- <h3 class="project-section-title">Project Details</h3> -->
+                  <div class="form-group">
+                    <label class="form-label">Order Number</label>
+                    <input
+                      type="text"
+                      id="numberOrder"
+                      class="form-control readonly"
+                      readonly
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Status</label>
+                    <select id="status" class="form-control">
+                      <option value="to do">To Do</option>
+                      <option value="in progress">In Progress</option>
+                      <option value="waiting for payment">
+                        Waiting for Payment
+                      </option>
+                      <option value="in review">In Review</option>
+                      <option value="revision">Revision</option>
+                      <option value="done">Done</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Client Name *</label>
+                    <select
+                      id="projectClientNameSelect"
+                      class="form-control"
+                      required
                     >
-                      <i class="uil uil-plus"></i>
-                      Add Client
-                    </button>
-                  </div> -->
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Client Phone</label>
-                  <input
-                    type="tel"
-                    id="clientPhone"
-                    class="form-control"
-                    placeholder="Enter phone number starting with 62"
-                  />
+                      <option value="">Select client</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Client Phone</label>
+                    <input
+                      type="tel"
+                      id="clientPhone"
+                      class="form-control"
+                      placeholder="Enter phone number starting with 62"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Deadline *</label>
+                    <input
+                      type="date"
+                      id="deadline"
+                      class="form-control"
+                      required
+                    />
+                  </div>
                 </div>
               </div>
+            </div>
 
-              <div class="form-group">
-                <label class="form-label">Deadline *</label>
-                <input
-                  type="date"
-                  id="deadline"
-                  class="form-control"
-                  required
-                />
-              </div>
-
-              <div class="form-group">
-                <label class="form-label">Project Brief</label>
-                <div id="editor"></div>
-                <input type="hidden" id="brief" />
-              </div>
-
-              <div class="form-row">
-                <div class="form-group">
-                  <label class="form-label">Price (Rp) *</label>
-                  <input
-                    type="number"
-                    id="price"
-                    class="form-control"
-                    min="0"
-                    required
-                    placeholder="0"
-                  />
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Quantity *</label>
-                  <input
-                    type="number"
-                    id="quantity"
-                    class="form-control"
-                    min="1"
-                    value="1"
-                    required
-                  />
-                </div>
-              </div>
-
-              <div class="form-row">
-                <div class="form-group">
-                  <label class="form-label">Discount (Rp)</label>
-                  <input
-                    type="number"
-                    id="discount"
-                    class="form-control"
-                    min="0"
-                    placeholder="0"
-                  />
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Total Price</label>
-                  <input
-                    type="text"
-                    id="totalPrice"
-                    class="form-control"
-                    readonly
-                    placeholder="Rp 0"
-                  />
-                </div>
-              </div>
-
-              <div class="form-row-button">
-                <div class="form-group">
-                  <label class="form-label">Deliverables Link</label>
-                  <input
-                    type="url"
-                    id="deliverables"
-                    class="form-control"
-                    placeholder="https://drive.google.com/..."
-                  />
-                </div>
-                <div class="form-group">
-                  <label class="form-label">See Result</label>
-                  <button
-                    type="button"
-                    class="btn btn-primary"
-                    onclick="openProjectResult(event)"
-                  >
-                    <i class="uil uil-external-link-alt"></i>
-                    See
-                  </button>
-                </div>
-              </div>
-
-              <div class="form-row-button">
-                <div class="form-group">
-                  <label class="form-label">Invoice Link</label>
-                  <input
-                    type="url"
-                    id="invoice"
-                    class="form-control"
-                    placeholder="https://splitbill-alpha.vercel.app/..."
-                  />
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Create Invoice</label>
-                  <button
-                    type="button"
-                    class="btn btn-primary"
-                    onclick="window.open('https://splitbill-alpha.vercel.app/invoice.html', '_blank')"
-                  >
-                    <i class="uil uil-external-link-alt"></i>
-                    Create
-                  </button>
-                </div>
-              </div>
-
-              <div class="modal-buttons-sticky">
-                <button
-                  type="button"
-                  class="btn btn-secondary"
-                  onclick="closeProjectModal()"
-                >
-                  Cancel
-                </button>
-                <button type="submit" class="btn btn-primary">
-                  <i class="uil uil-save"></i>
-                  Save Project
-                </button>
-              </div>
+            <div class="modal-buttons-sticky">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                onclick="closeProjectModal()"
+              >
+                Cancel
+              </button>
+              <button type="submit" class="btn btn-primary">
+                <i class="uil uil-save"></i>
+                Save Project
+              </button>
             </div>
           </form>
         </div>
