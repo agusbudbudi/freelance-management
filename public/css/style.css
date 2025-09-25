@@ -114,7 +114,7 @@
 }
 
 .page-title {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 600;
   color: var(--text-primary);
 }
@@ -250,7 +250,7 @@
   align-items: center;
 }
 .card-title {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
   color: var(--text-primary);
   margin: 0;
@@ -423,7 +423,7 @@ table tbody tr:last-child td {
   left: 50%;
   transform: translate(-50%, -50%);
   background: var(--bg-secondary);
-  border-radius: 16px;
+  border-radius: 12px;
   max-width: 900px;
   width: 95%;
   max-height: 90vh;
@@ -449,7 +449,7 @@ table tbody tr:last-child td {
 }
 
 .modal-title {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 600;
   color: var(--text-primary);
   margin: 0;
@@ -532,12 +532,12 @@ table tbody tr:last-child td {
 }
 
 .form-control {
-  padding: 12px 16px;
+  padding: 8px 16px;
   border: 1px solid var(--border-muted);
   border-radius: 8px;
   font-size: 16px;
   transition: all 0.2s ease;
-  background: var(--bg-primary);
+  background: var(--bg-secondary);
   font-family: poppins;
   color: var(--text-primary);
   width: 100%;
@@ -565,6 +565,7 @@ select.form-control {
   font-weight: 600;
   border: none;
   cursor: not-allowed;
+  background: var(--bg-primary);
 }
 
 .form-control.readonly:focus {
@@ -652,7 +653,7 @@ select.form-control {
   border-left: 1px solid var(--border-muted);
   border-right: 1px solid var(--border-muted);
   border-radius: 0 0 8px 8px;
-  background-color: var(--bg-primary);
+  background-color: var(--bg-secondary);
   font-size: 16px;
 }
 
@@ -664,10 +665,10 @@ select.form-control {
   font-size: 20px;
   color: var(--text-primary);
   cursor: pointer;
-  padding: 6px 8px;
+  padding: 6px 10px;
   border-radius: 8px;
   transition: all 0.2s ease;
-  margin-right: 12px;
+  margin-right: 20px;
   border: 1px solid var(--border-muted);
 }
 
@@ -920,5 +921,99 @@ select.form-control {
 
   .search-input {
     font-size: 16px; /* Prevent zoom on iOS */
+  }
+}
+
+/* Project Modal Specific Styles */
+.project-modal-content {
+  max-width: 1200px;
+  width: 95%;
+}
+
+.project-form-layout {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 32px;
+  width: 100%;
+}
+
+.project-main-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-bottom: 60px;
+}
+
+.project-sidebar {
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  padding: 20px;
+  border: 1px solid var(--border-secondary);
+  height: fit-content;
+  position: sticky;
+  top: 0;
+}
+
+.project-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.project-section-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-secondary);
+}
+
+/* Responsive Design for Project Modal */
+@media (max-width: 1024px) {
+  .project-form-layout {
+    grid-template-columns: 1.5fr 1fr;
+    gap: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .project-modal-content {
+    max-width: 95%;
+    width: 95%;
+  }
+
+  .project-form-layout {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .project-sidebar {
+    position: static;
+    order: -1; /* Move sidebar to top on mobile */
+  }
+
+  .project-section-title {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .project-modal-content {
+    width: 98%;
+    max-height: 95vh;
+  }
+
+  .project-sidebar {
+    padding: 0;
+    border: none;
+  }
+
+  .project-form-layout {
+    gap: 16px;
+  }
+
+  .project-section {
+    gap: 12px;
   }
 }

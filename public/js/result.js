@@ -67,6 +67,25 @@ function getStatusBadgeHTML(status) {
   return `<span class="status-badge ${statusInfo.class}"><i class="uil ${statusInfo.icon}"></i>   ${statusInfo.text}</span>`;
 }
 
+// Update main title based on project status
+function updateMainTitle(status) {
+  const titleMessages = {
+    "to do": "✨ Project kamu lagi dipersiapkan, stay tuned!",
+    "in progress": "🚀 Project kamu lagi dikerjakan, progress on the way!",
+    "waiting for payment":
+      "💳 Yuk selesaikan pembayaran biar project bisa lanjut!",
+    "in review": "🔍 Project kamu lagi direview, hampir selesai nih!",
+    revision: "✏️ Project kamu lagi direvisi biar makin sempurna!",
+    done: "🎉 Yeay! Project kamu sudah selesai dengan sukses!",
+  };
+
+  const mainTitleElement = document.getElementById("main-title");
+  if (mainTitleElement) {
+    const message = titleMessages[status] || "Status project tidak diketahui";
+    mainTitleElement.textContent = message;
+  }
+}
+
 // Load and display project data
 async function loadProjectData() {
   try {
@@ -123,6 +142,9 @@ function displayProjectData(project) {
   if (statusBadge) {
     statusBadge.innerHTML = getStatusBadgeHTML(project.status);
   }
+
+  // Update main title based on project status
+  updateMainTitle(project.status);
 
   // Update action buttons with actual URLs
   updateActionButtons(project);
