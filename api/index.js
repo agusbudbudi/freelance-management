@@ -44,9 +44,11 @@ app.use(express.static(path.join(__dirname, "../public")));
 const projectRoutes = require("./routes/projects");
 const clientRoutes = require("./routes/clients");
 const serviceRoutes = require("./routes/services");
+const authRoutes = require("./routes/auth");
 app.use("/api/projects", projectRoutes);
 app.use("/api/clients", clientRoutes);
 app.use("/api/services", serviceRoutes);
+app.use("/api/auth", authRoutes);
 
 // Health check endpoint
 app.get("/api", (req, res) => {
@@ -54,6 +56,7 @@ app.get("/api", (req, res) => {
     message: "Freelance Management API is running!",
     version: "1.0.0",
     endpoints: {
+      auth: "/api/auth",
       projects: "/api/projects",
       clients: "/api/clients",
       services: "/api/services",

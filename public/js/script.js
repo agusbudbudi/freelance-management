@@ -117,12 +117,47 @@ function calculateTotalPrice() {
   );
 }
 
+// Section data for dynamic header
+const sectionData = {
+  dashboard: {
+    title: "Dashboard",
+    subtitle: "Track your design projects 🚀",
+  },
+  projects: {
+    title: "Projects",
+    subtitle: "Manage your design projects 👨🏻‍💻",
+  },
+  clients: {
+    title: "Clients",
+    subtitle: "Manage your client database 👥",
+  },
+  services: {
+    title: "Services",
+    subtitle: "Manage your service offerings 💼",
+  },
+};
+
+// Update header content
+function updateHeader(section) {
+  const data = sectionData[section];
+  if (data) {
+    document.getElementById("page-title").textContent = data.title;
+    document.getElementById("page-subtitle").textContent = data.subtitle;
+  }
+}
+
 // Show section
 function showSection(section) {
-  document.querySelectorAll(".main-content > div").forEach((div) => {
-    div.classList.add("hidden");
-  });
+  // Hide all section divs, but exclude the header
+  document
+    .querySelectorAll(".main-content > div:not(.content-header)")
+    .forEach((div) => {
+      div.classList.add("hidden");
+    });
   document.getElementById(`${section}-section`).classList.remove("hidden");
+
+  // Update header content
+  updateHeader(section);
 
   // Update sidebar active state
   document.querySelectorAll(".nav-item").forEach((item) => {
@@ -714,7 +749,236 @@ function updateClientSelectOptions() {
   }
 }
 
+// Global state
+let isMenuOpen = false;
+
+// Toggle profile menu
+function toggleProfileMenu() {
+  const menu = document.getElementById("profileMenu");
+  const overlay = document.getElementById("profileOverlay");
+
+  if (isMenuOpen) {
+    closeProfileMenu();
+  } else {
+    openProfileMenu();
+  }
+}
+
+// Open profile menu
+function openProfileMenu() {
+  const menu = document.getElementById("profileMenu");
+  const overlay = document.getElementById("profileOverlay");
+
+  if (menu && overlay) {
+    menu.classList.add("show");
+    overlay.classList.add("show");
+    isMenuOpen = true;
+
+    // Add escape key listener
+    document.addEventListener("keydown", handleEscapeKey);
+  }
+}
+
+// Close profile menu
+function closeProfileMenu() {
+  const menu = document.getElementById("profileMenu");
+  const overlay = document.getElementById("profileOverlay");
+
+  if (menu && overlay) {
+    menu.classList.remove("show");
+    overlay.classList.remove("show");
+    isMenuOpen = false;
+
+    // Remove escape key listener
+    document.removeEventListener("keydown", handleEscapeKey);
+  }
+}
+
+// Handle escape key
+function handleEscapeKey(event) {
+  if (event.key === "Escape" && isMenuOpen) {
+    closeProfileMenu();
+  }
+}
+
+// Setup event listeners
+function setupEventListeners() {
+  // Close menu when clicking outside
+  document.addEventListener("click", function (event) {
+    const profileButton = document.getElementById("profileButton");
+    const profileMenu = document.getElementById("profileMenu");
+
+    if (isMenuOpen && profileButton && profileMenu) {
+      // Check if click is outside both button and menu
+      if (
+        !profileButton.contains(event.target) &&
+        !profileMenu.contains(event.target)
+      ) {
+        closeProfileMenu();
+      }
+    }
+  });
+
+  // Close menu when clicking overlay
+  const overlay = document.getElementById("profileOverlay");
+  if (overlay) {
+    overlay.addEventListener("click", function () {
+      closeProfileMenu();
+    });
+  }
+
+  // Prevent menu from closing when clicking inside it
+  const profileMenu = document.getElementById("profileMenu");
+  if (profileMenu) {
+    profileMenu.addEventListener("click", function (event) {
+      event.stopPropagation();
+    });
+  }
+}
+
+// Menu item functions
+function viewProfile() {
+  console.log("View Profile clicked");
+  closeProfileMenu();
+  showProfileModal();
+}
+
+function editProfile() {
+  console.log("Edit Profile clicked");
+  closeProfileMenu();
+  // Add your edit profile logic here
+  alert("Opening profile editor...");
+}
+
+function accountSettings() {
+  console.log("Account Settings clicked");
+  closeProfileMenu();
+  // Add your account settings logic here
+  alert("Opening account settings...");
+}
+
+function preferences() {
+  console.log("Preferences clicked");
+  closeProfileMenu();
+  // Add your preferences logic here
+  alert("Opening preferences...");
+}
+
+function helpSupport() {
+  console.log("Help & Support clicked");
+  closeProfileMenu();
+  // Add your help & support logic here
+  alert("Opening help center...");
+}
+
+function feedback() {
+  console.log("Send Feedback clicked");
+  closeProfileMenu();
+  // Add your feedback logic here
+  alert("Opening feedback form...");
+}
+
+// Logout function
+function logout() {
+  // Use the auth guard logout function
+  if (window.authGuard) {
+    window.authGuard.logout();
+  } else {
+    // Fallback logout
+    if (confirm("Are you sure you want to logout?")) {
+      localStorage.removeItem("user");
+      localStorage.removeItem("token");
+      window.location.href = "login.html";
+    }
+  }
+  closeProfileMenu();
+}
+
+// Profile Modal Functions (delegated to auth-guard.js)
+function showProfileModal() {
+  if (window.authGuard) {
+    window.authGuard.showProfileModal();
+  }
+}
+
+function closeProfileModal() {
+  if (window.authGuard) {
+    window.authGuard.closeProfileModal();
+  }
+}
+
+// Profile image functions (delegated to auth-guard.js)
+function handleProfileImageChange(event) {
+  if (window.authGuard) {
+    window.authGuard.handleProfileImageChange(event);
+  }
+}
+
+function removeProfileImage() {
+  if (window.authGuard) {
+    window.authGuard.removeProfileImage();
+  }
+}
+
+function showProfileAlert(message, type = "success") {
+  if (window.authGuard) {
+    window.authGuard.showProfileAlert(message, type);
+  }
+}
+
+function saveProfileChanges(formData) {
+  if (window.authGuard) {
+    window.authGuard.saveProfileChanges(formData);
+  }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   initApp();
   loadClientsForProject();
+  setupEventListeners(); // Initialize profile menu event listeners
+
+  // Add profile form submission handler
+  const profileForm = document.getElementById("profile-form");
+  if (profileForm) {
+    profileForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const formData = {
+        fullName: document.getElementById("profileFullName").value.trim(),
+        email: document.getElementById("profileEmailField").value.trim(),
+        phone: document.getElementById("profilePhone").value.trim(),
+        bio: document.getElementById("profileBio").value.trim(),
+      };
+
+      // Basic validation
+      if (!formData.fullName) {
+        showProfileAlert("Full name is required.", "error");
+        return;
+      }
+
+      if (!formData.email) {
+        showProfileAlert("Email address is required.", "error");
+        return;
+      }
+
+      // Email validation
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(formData.email)) {
+        showProfileAlert("Please enter a valid email address.", "error");
+        return;
+      }
+
+      saveProfileChanges(formData);
+    });
+  }
+
+  // Add modal click outside to close
+  const profileModal = document.getElementById("profile-modal");
+  if (profileModal) {
+    profileModal.addEventListener("click", function (e) {
+      if (e.target === this) {
+        closeProfileModal();
+      }
+    });
+  }
 });
