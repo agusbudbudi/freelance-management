@@ -102,24 +102,102 @@
       <div class="mobile-overlay" id="mobile-overlay"></div>
 
       <div class="main-content">
-        <!-- Dashboard Section -->
-        <div id="dashboard-section">
-          <div class="content-header">
-            <div class="header-top">
-              <div class="mobile-header">
+        <!-- Reusable Header -->
+        <div class="content-header">
+          <div class="header-top">
+            <div class="mobile-header">
+              <div class="header-title">
                 <button class="mobile-menu-btn" id="mobile-menu-btn">
                   <i class="fas fa-bars"></i>
                 </button>
                 <div>
-                  <h1 class="page-title">Dashboard</h1>
-                  <p class="page-subtitle">
-                    Track your design projects and performance 🚀
+                  <h1 class="page-title" id="page-title">Dashboard</h1>
+                  <p class="page-subtitle" id="page-subtitle">
+                    Track your design projects 🚀
                   </p>
                 </div>
               </div>
+              <div
+                class="profile-menu profile-button"
+                id="profileButton"
+                onclick="toggleProfileMenu()"
+              >
+                <img
+                  id="headerAvatar"
+                  src="https://api.dicebear.com/9.x/personas/svg?backgroundColor=b6e3f4&amp;scale=100&amp;seed=default"
+                  class="avatar-profile"
+                />
+              </div>
+
+              <!-- Profile Menu Popup -->
+              <div class="profile-menu-dropdown" id="profileMenu">
+                <div class="profile-header">
+                  <div class="profile-image" id="profileImage"></div>
+                  <div>
+                    <div class="profile-name" id="profileName">John Doe</div>
+                    <div class="profile-email" id="profileEmail">
+                      john.doe@example.com
+                    </div>
+                  </div>
+
+                  <!-- <div class="profile-status">
+                    <i class="fas fa-circle"></i>
+                    Online
+                  </div> -->
+                </div>
+
+                <div class="profile-menu-items">
+                  <a
+                    href="#"
+                    class="profile-menu-item"
+                    onclick="showProfileModal()"
+                  >
+                    <i class="uil uil-user"></i>
+                    View Profile
+                  </a>
+                  <!-- <a href="#" class="profile-menu-item" onclick="editProfile()">
+                    <i class="fas fa-edit"></i>
+                    Edit Profile
+                  </a>
+                  <a
+                    href="#"
+                    class="profile-menu-item"
+                    onclick="accountSettings()"
+                  >
+                    <i class="fas fa-cog"></i>
+                    Account Settings
+                  </a>
+                  <a href="#" class="profile-menu-item" onclick="preferences()">
+                    <i class="fas fa-sliders-h"></i>
+                    Preferences
+                  </a> -->
+
+                  <!-- <div class="menu-divider"></div> -->
+
+                  <!-- <a href="#" class="profile-menu-item" onclick="helpSupport()">
+                    <i class="uil uil-question-circle"></i>
+                    Help & Support
+                  </a>
+                  <a href="#" class="profile-menu-item" onclick="feedback()">
+                    <i class="uil uil-comment-dots"></i>
+                    Send Feedback
+                  </a> -->
+
+                  <button class="profile-menu-item logout" onclick="logout()">
+                    <i class="uil uil-sign-out-alt"></i>
+                    Logout
+                  </button>
+                </div>
+              </div>
+
+              <!-- Profile Overlay for Mobile -->
+              <div class="profile-overlay" id="profileOverlay"></div>
             </div>
           </div>
+        </div>
 
+        <!-- Dashboard Section -->
+        <div id="dashboard-section">
           <div class="content-body">
             <div class="stats-grid">
               <div class="stat-card total">
@@ -262,20 +340,6 @@
 
         <!-- Projects Section -->
         <div id="projects-section" class="hidden">
-          <div class="content-header">
-            <div class="header-top">
-              <div class="mobile-header">
-                <button class="mobile-menu-btn" id="mobile-menu-btn-projects">
-                  <i class="fas fa-bars"></i>
-                </button>
-                <div>
-                  <h1 class="page-title">Projects</h1>
-                  <p class="page-subtitle">Manage your design projects 👨🏻‍💻</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
           <div class="content-body">
             <div class="content-card">
               <div class="card-header">
@@ -310,20 +374,6 @@
 
         <!-- Clients Section -->
         <div id="clients-section" class="hidden">
-          <div class="content-header">
-            <div class="header-top">
-              <div class="mobile-header">
-                <button class="mobile-menu-btn" id="mobile-menu-btn-clients">
-                  <i class="fas fa-bars"></i>
-                </button>
-                <div>
-                  <h1 class="page-title">Clients</h1>
-                  <p class="page-subtitle">Manage your client database 👥</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
           <div class="content-body">
             <div class="content-card">
               <div class="card-header">
@@ -355,20 +405,6 @@
 
         <!-- Services Section -->
         <div id="services-section" class="hidden">
-          <div class="content-header">
-            <div class="header-top">
-              <div class="mobile-header">
-                <button class="mobile-menu-btn" id="mobile-menu-btn-services">
-                  <i class="fas fa-bars"></i>
-                </button>
-                <div>
-                  <h1 class="page-title">Services</h1>
-                  <p class="page-subtitle">Manage your service offerings 💼</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
           <div class="content-body">
             <div class="content-card">
               <div class="card-header">
@@ -403,6 +439,117 @@
               </div>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Profile Modal -->
+    <div id="profile-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title">My Profile</h2>
+          <button class="close" onclick="closeProfileModal()">
+            <i class="uil uil-times"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div id="profile-alert-container"></div>
+          <form id="profile-form">
+            <div class="form-grid">
+              <!-- Profile Image Section -->
+              <!-- <div class="form-group">
+                <div class="profile-image-upload">
+                  <div class="profile-image-preview" id="profileImagePreview">
+                    <div class="profile-initials" id="profileInitialsPreview">
+                      JD
+                    </div>
+                  </div>
+                  <div class="profile-image-actions">
+                    <input
+                      type="file"
+                      id="profileImageInput"
+                      accept="image/*"
+                      style="display: none"
+                      onchange="handleProfileImageChange(event)"
+                    />
+                    <button
+                      type="button"
+                      class="btn btn-secondary btn-sm"
+                      onclick="document.getElementById('profileImageInput').click()"
+                    >
+                      <i class="uil uil-camera"></i>
+                      Change Photo
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-secondary btn-sm btn-danger"
+                      onclick="removeProfileImage()"
+                    >
+                      <i class="uil uil-trash"></i>
+                      Remove
+                    </button>
+                  </div>
+                </div>
+              </div> -->
+
+              <!-- Personal Information -->
+              <div class="form-group">
+                <label class="form-label">Full Name *</label>
+                <input
+                  type="text"
+                  id="profileFullName"
+                  class="form-control"
+                  required
+                  placeholder="Enter your full name"
+                />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Email Address *</label>
+                <input
+                  type="email"
+                  id="profileEmailField"
+                  class="form-control"
+                  required
+                  placeholder="Enter your email address"
+                />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Phone Number</label>
+                <input
+                  type="tel"
+                  id="profilePhone"
+                  class="form-control"
+                  placeholder="Enter your phone number"
+                />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Bio</label>
+                <textarea
+                  id="profileBio"
+                  class="form-control"
+                  rows="3"
+                  placeholder="Tell us about yourself..."
+                ></textarea>
+              </div>
+
+              <div class="modal-buttons-sticky">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  onclick="closeProfileModal()"
+                >
+                  Cancel
+                </button>
+                <button type="submit" class="btn btn-primary">
+                  <i class="uil uil-save"></i>
+                  Save Changes
+                </button>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
     </div>
@@ -829,10 +976,24 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.6/quill.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
 
+    <script src="js/auth-guard.js"></script>
     <script src="js/search.js"></script>
     <script src="js/client.js"></script>
     <script src="js/dashboard.js"></script>
     <script src="js/service.js"></script>
     <script src="js/script.js"></script>
+
+    <script>
+      // Protect this route - redirect to login if not authenticated
+      document.addEventListener("DOMContentLoaded", async function () {
+        const isAuthenticated = await window.authGuard.protectRoute();
+        if (!isAuthenticated) {
+          return; // Will be redirected to login
+        }
+
+        // Initialize user display after authentication is confirmed
+        window.authGuard.initializeUserDisplay();
+      });
+    </script>
   </body>
 </html>
