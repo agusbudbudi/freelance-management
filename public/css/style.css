@@ -467,11 +467,10 @@ table tbody tr:last-child td {
   padding: 24px;
   max-height: calc(100vh - 140px);
   overflow-y: auto;
-  padding-bottom: 0; /* Add space for sticky buttons */
-
-  width: 100%; /* pastikan full lebar */
-  box-sizing: border-box; /* padding dihitung ke dalam */
-  overflow-x: hidden; /* cegah scroll horizontal */
+  width: 100%;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  padding-bottom: 80px; /* Add padding to prevent content from being hidden behind sticky buttons */
 }
 
 /* Sticky button container */
@@ -487,6 +486,7 @@ table tbody tr:last-child td {
   z-index: 10;
   padding: 10px 24px;
   width: 100%;
+  border-radius: 0 0 12px 12px; /* Match modal border radius */
 }
 
 .close {
