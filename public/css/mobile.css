@@ -91,8 +91,8 @@
     flex: 1;
     overflow-y: auto;
     max-height: none; /* Remove desktop height constraint */
-    height: auto;
-    margin-bottom: 0; /* Remove margin to prevent extra space */
+    padding: 16px;
+    padding-bottom: 80px;
   }
 
   .modal-buttons-sticky {
@@ -140,7 +140,7 @@
   }
 
   .project-item {
-    padding: 12px 0;
+    padding: 8px;
   }
 
   .auth-container {
