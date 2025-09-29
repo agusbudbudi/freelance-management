@@ -112,7 +112,8 @@
   }
 
   /* Ensure project main content has enough space for sticky buttons */
-  .project-main-content {
+  .project-main-content,
+  #service-form {
     margin-bottom: 100px; /* Remove margin since we're using padding in modal-body */
   }
 
