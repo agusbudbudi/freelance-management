@@ -92,7 +92,6 @@
     overflow-y: auto;
     max-height: none; /* Remove desktop height constraint */
     height: auto;
-    padding-bottom: 100px; /* Add space for fixed buttons */
     margin-bottom: 0; /* Remove margin to prevent extra space */
   }
 
@@ -114,7 +113,7 @@
 
   /* Ensure project main content has enough space for sticky buttons */
   .project-main-content {
-    margin-bottom: 0; /* Remove margin since we're using padding in modal-body */
+    margin-bottom: 100px; /* Remove margin since we're using padding in modal-body */
   }
 
   /* Fix form grid spacing on mobile */
