@@ -80,6 +80,39 @@ const projectSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  comments: [
+    {
+      id: {
+        type: String,
+        required: true,
+        default: () => Date.now().toString(),
+      },
+      content: {
+        type: String,
+        required: true,
+      },
+      authorName: {
+        type: String,
+        required: true,
+      },
+      authorEmail: {
+        type: String,
+        required: true,
+      },
+      authorAvatar: {
+        type: String,
+        default: "",
+      },
+      isClient: {
+        type: Boolean,
+        default: false,
+      },
+      createdAt: {
+        type: Date,
+        default: Date.now,
+      },
+    },
+  ],
 });
 
 // Update the updatedAt field before saving

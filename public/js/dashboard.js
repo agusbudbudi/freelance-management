@@ -10,19 +10,12 @@ function formatCurrency(amount) {
   }).format(amount);
 }
 
-// Get project avatar from random avatar service
+// Get project avatar using diceBear based on client name
 function getProjectInitials(projectName, clientName) {
-  // Generate a consistent random number based on client name only
+  // Use diceBear avatar based on client name
   // So all projects from the same client will have the same avatar
-  let hash = 0;
-  for (let i = 0; i < clientName.length; i++) {
-    const char = clientName.charCodeAt(i);
-    hash = (hash << 5) - hash + char;
-    hash = hash & hash; // Convert to 32bit integer
-  }
-  // Use absolute value and limit to 1-100 range
-  const avatarNumber = Math.abs(hash % 100) + 1;
-  return `https://avatar.iran.liara.run/public/${avatarNumber}`;
+  const seed = encodeURIComponent(clientName || "default");
+  return `https://api.dicebear.com/9.x/personas/svg?backgroundColor=b6e3f4&scale=100&seed=${seed}`;
 }
 
 // Get status class

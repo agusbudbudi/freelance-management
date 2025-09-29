@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="css/global.css" />
     <link rel="stylesheet" href="css/result.css" />
     <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/mobile.css" />
     <link rel="stylesheet" href="css/theme.css" />
 
     <title>Project Completed - Gous Studio</title>
@@ -88,6 +89,45 @@
         >
       </div>
 
+      <!-- Client Comments Section -->
+      <div class="comments-section">
+        <h4 class="section-title">Feedback & Comments</h4>
+        <p class="section-subtitle">Share your thoughts about this project</p>
+
+        <!-- Comment Form -->
+        <div class="client-comment-form">
+          <textarea
+            id="clientCommentContent"
+            class="comment-input"
+            rows="4"
+            placeholder="Write your feedback or questions here..."
+          ></textarea>
+          <button
+            type="button"
+            class="btn btn-primary comment-submit-btn"
+            onclick="submitClientComment()"
+          >
+            <i class="uil uil-comment-plus"></i>
+            Send Feedback
+          </button>
+        </div>
+
+        <!-- Comments List -->
+        <div class="client-comments-container">
+          <div id="clientCommentsList" class="client-comments-list">
+            <!-- Client comments will be loaded here -->
+          </div>
+          <div
+            id="noClientComments"
+            class="no-comments-state"
+            style="display: none"
+          >
+            <i class="uil uil-comment-dots"></i>
+            <p>No feedback yet. Be the first to share your thoughts!</p>
+          </div>
+        </div>
+      </div>
+
       <!-- Security Notice -->
       <div class="security-notice">
         <div class="security-icon">
@@ -135,6 +175,7 @@
       </div>
     </div>
 
+    <script src="js/script.js"></script>
     <script src="js/result.js"></script>
   </body>
 </html>

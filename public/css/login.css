@@ -19,8 +19,8 @@ body {
 
 .auth-container-header {
   text-align: center;
-  padding: 20px 20px 0 20px;
-  background-color: var(--bg-hover);
+  padding: 30px 30px 0 30px;
+  /* background: var(--header-gradient); */
 }
 
 .auth-header {
@@ -32,7 +32,7 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: 24px;
+  /* margin-bottom: 24px; */
 }
 
 .logo-icon {

@@ -131,6 +131,49 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
+// POST /api/projects/:id/comments - Add a comment to a project
+router.post("/:id/comments", async (req, res) => {
+  try {
+    const { content, authorName, authorEmail, authorAvatar, isClient } =
+      req.body;
+
+    if (!content || !authorName || !authorEmail) {
+      return res.status(400).json({
+        error: "Content, author name, and author email are required",
+      });
+    }
+
+    const project = await Project.findOne({ id: req.params.id });
+    if (!project) {
+      return res.status(404).json({ error: "Project not found" });
+    }
+
+    const newComment = {
+      id: Date.now().toString(),
+      content: content.trim(),
+      authorName: authorName.trim(),
+      authorEmail: authorEmail.trim(),
+      authorAvatar: authorAvatar || "",
+      isClient: isClient || false,
+      createdAt: new Date(),
+    };
+
+    project.comments.push(newComment);
+    project.updatedAt = new Date();
+
+    const savedProject = await project.save();
+
+    res.status(201).json({
+      message: "Comment added successfully",
+      comment: newComment,
+      project: savedProject,
+    });
+  } catch (error) {
+    console.error("Error adding comment:", error);
+    res.status(500).json({ error: "Failed to add comment" });
+  }
+});
+
 // GET /api/projects/stats/dashboard - Get dashboard statistics
 router.get("/stats/dashboard", async (req, res) => {
   try {

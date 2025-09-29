@@ -1,5 +1,5 @@
 // API Base URL
-const API_BASE_URL = "/api";
+// const API_BASE_URL = "/api";
 
 // API Helper function
 async function apiRequest(endpoint, options = {}) {
@@ -86,6 +86,9 @@ function updateMainTitle(status) {
   }
 }
 
+// Global variable to store current project data
+let currentProject = null;
+
 // Load and display project data
 async function loadProjectData() {
   try {
@@ -103,10 +106,14 @@ async function loadProjectData() {
 
     // Fetch project data from API
     const project = await apiRequest(`/projects/${projectId}`);
+    currentProject = project; // Store project data globally
 
     // Hide loading and display project data
     hideLoading();
     displayProjectData(project);
+
+    // Load and display comments
+    loadProjectComments(project.comments || []);
   } catch (error) {
     hideLoading();
     showError("Failed to load project data: " + error.message);
@@ -231,6 +238,162 @@ function showError(message) {
     </div>
   `;
   container.innerHTML = errorHTML;
+}
+
+// Format comment date for display
+function formatCommentDate(dateString) {
+  const date = new Date(dateString);
+  return date.toLocaleDateString("id-ID", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}
+
+// Generate avatar URL for user
+function generateAvatar(name, email) {
+  if (!name)
+    return `https://api.dicebear.com/9.x/personas/svg?backgroundColor=b6e3f4&scale=100&seed=default`;
+
+  // Use email or name as seed for consistent avatar
+  const seed = email || name;
+  return `https://api.dicebear.com/9.x/personas/svg?backgroundColor=b6e3f4&scale=100&seed=${encodeURIComponent(
+    seed
+  )}`;
+}
+
+// Render single comment HTML
+function renderComment(comment) {
+  const avatar =
+    comment.authorAvatar ||
+    generateAvatar(comment.authorName, comment.authorEmail);
+  const formattedDate = formatCommentDate(comment.createdAt);
+  const badgeHtml = comment.isClient
+    ? '<span class="client-comment-badge">Client</span>'
+    : '<span class="client-comment-badge" style="background: #6366f1;">Admin</span>';
+
+  return `
+    <div class="client-comment-item">
+      <img src="${avatar}" alt="${comment.authorName}" class="client-comment-avatar" />
+      <div class="client-comment-content">
+        <div class="client-comment-header">
+          <span class="client-comment-author">${comment.authorName}</span>
+          <span class="client-comment-date">${formattedDate}</span>
+          ${badgeHtml}
+        </div>
+        <div class="client-comment-text">${comment.content}</div>
+      </div>
+    </div>
+  `;
+}
+
+// Load and display project comments (client comments only)
+function loadProjectComments(comments) {
+  const commentsList = document.getElementById("clientCommentsList");
+  const noCommentsState = document.getElementById("noClientComments");
+
+  if (!commentsList) return;
+
+  // Filter to only show client comments (hide admin comments)
+  const clientOnlyComments =
+    comments?.filter((comment) => comment.isClient === true) || [];
+
+  if (clientOnlyComments.length === 0) {
+    commentsList.style.display = "none";
+    if (noCommentsState) {
+      noCommentsState.style.display = "block";
+    }
+    return;
+  }
+
+  // Sort client comments by date (newest first)
+  const sortedComments = clientOnlyComments.sort(
+    (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+  );
+
+  // Render client comments only
+  commentsList.innerHTML = sortedComments
+    .map((comment) => renderComment(comment))
+    .join("");
+  commentsList.style.display = "flex";
+
+  if (noCommentsState) {
+    noCommentsState.style.display = "none";
+  }
+}
+
+// Submit client comment
+async function submitClientComment() {
+  if (!currentProject) {
+    alert("Project data not loaded. Please refresh the page.");
+    return;
+  }
+
+  const commentContent = document.getElementById("clientCommentContent");
+  const submitButton = document.querySelector(".comment-submit-btn");
+
+  if (!commentContent || !submitButton) {
+    console.error("Comment form elements not found");
+    return;
+  }
+
+  const content = commentContent.value.trim();
+
+  if (!content) {
+    alert("Please enter your comment before submitting.");
+    commentContent.focus();
+    return;
+  }
+
+  // Show loading state
+  const originalButtonText = submitButton.innerHTML;
+  submitButton.disabled = true;
+  submitButton.innerHTML =
+    '<i class="uil uil-spinner" style="animation: spin 1s linear infinite;"></i> Sending...';
+
+  try {
+    const commentData = {
+      content: content,
+      authorName: currentProject.clientName,
+      authorEmail:
+        currentProject.clientEmail ||
+        `${currentProject.clientName
+          .toLowerCase()
+          .replace(/\s+/g, "")}@client.com`,
+      isClient: true,
+    };
+
+    // Submit comment to API
+    const response = await apiRequest(
+      `/projects/${currentProject.id}/comments`,
+      {
+        method: "POST",
+        body: JSON.stringify(commentData),
+      }
+    );
+
+    // Clear the form
+    commentContent.value = "";
+
+    // Refresh comments display
+    const updatedProject = response.project;
+    currentProject = updatedProject;
+    loadProjectComments(updatedProject.comments || []);
+
+    // Show success feedback
+    showAlert("Feedback berhasil dikirim! Terima kasih atas masukan Anda.");
+  } catch (error) {
+    console.error("Failed to submit comment:", error);
+    alert(
+      "Gagal mengirim feedback. Silakan coba lagi. Error: " + error.message
+    );
+  } finally {
+    // Restore button state
+    submitButton.disabled = false;
+    submitButton.innerHTML = originalButtonText;
+  }
 }
 
 // Initialize the result page

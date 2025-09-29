@@ -543,12 +543,16 @@ table tbody tr:last-child td {
   padding: 8px 16px;
   border: 1px solid var(--border-muted);
   border-radius: 8px;
-  font-size: 16px;
+  font-size: 14px;
   transition: all 0.2s ease;
   background: var(--bg-secondary);
   font-family: poppins;
   color: var(--text-primary);
   width: 100%;
+}
+
+.form-control::placeholder {
+  color: var(--text-placeholder);
 }
 
 .form-control:focus {
@@ -648,15 +652,16 @@ select.form-control {
   height: 200px;
 }
 
-.ql-toolbar {
+.ql-toolbar.ql-snow {
   border-top: 1px solid var(--border-muted);
   border-left: 1px solid var(--border-muted);
   border-right: 1px solid var(--border-muted);
   border-radius: 8px 8px 0 0;
   background-color: var(--bg-primary);
+  border-bottom: none;
 }
 
-.ql-container {
+.ql-container.ql-snow {
   border-bottom: 1px solid var(--border-muted);
   border-left: 1px solid var(--border-muted);
   border-right: 1px solid var(--border-muted);
@@ -950,7 +955,7 @@ select.form-control {
   display: flex;
   flex-direction: column;
   gap: 24px;
-  margin-bottom: 60px;
+  margin-bottom: 20px;
   position: relative; /* Add this */
 }
 
@@ -1395,17 +1400,8 @@ select.form-control {
 /* Responsive */
 @media (max-width: 768px) {
   .profile-menu-dropdown {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    right: auto;
-    transform: translate(-50%, -50%) scale(0.95);
     width: 90%;
-    max-width: 320px;
-  }
-
-  .profile-menu-dropdown.show {
-    transform: translate(-50%, -50%) scale(1);
+    max-width: 300px;
   }
 
   .profile-menu-dropdown::before {

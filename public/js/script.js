@@ -306,6 +306,10 @@ function showProjectModal(projectId = null) {
     title.textContent = "Add New Project";
     resetProjectForm();
     document.getElementById("numberOrder").value = generateProjectNumber();
+    // Initialize empty comments state for new projects
+    setTimeout(() => {
+      renderComments([]);
+    }, 150);
   }
 
   modal.style.display = "block";
@@ -359,6 +363,8 @@ function fillProjectForm(project) {
     if (quill && project.brief) {
       quill.root.innerHTML = project.brief;
     }
+    // Load comments for this project
+    loadProjectComments(project);
   }, 200);
 }
 
@@ -929,6 +935,152 @@ function showProfileAlert(message, type = "success") {
 function saveProfileChanges(formData) {
   if (window.authGuard) {
     window.authGuard.saveProfileChanges(formData);
+  }
+}
+
+// Comment functions
+function loadProjectComments(project) {
+  if (!project || !project.comments) {
+    renderComments([]);
+    return;
+  }
+
+  // Sort comments by newest first
+  const sortedComments = project.comments.sort(
+    (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+  );
+
+  renderComments(sortedComments);
+}
+
+function renderComments(comments) {
+  const commentsList = document.getElementById("commentsList");
+  const noComments = document.getElementById("noComments");
+
+  if (!comments || comments.length === 0) {
+    commentsList.innerHTML = "";
+    noComments.style.display = "block";
+    return;
+  }
+
+  noComments.style.display = "none";
+  commentsList.innerHTML = comments
+    .map(
+      (comment) => `
+        <div class="comment-item">
+          <img 
+            src="${getUserAvatar(comment)}" 
+            alt="${comment.authorName}"
+            class="comment-avatar"
+          />
+          <div class="comment-content">
+            <div class="comment-header">
+              <span class="comment-author">${comment.authorName}</span>
+              <span class="comment-date">${formatCommentDate(
+                comment.createdAt
+              )}</span>
+              ${
+                comment.isClient
+                  ? '<span class="comment-badge client">Client</span>'
+                  : '<span class="comment-badge">Admin</span>'
+              }
+            </div>
+            <div class="comment-text">${comment.content}</div>
+          </div>
+        </div>
+      `
+    )
+    .join("");
+}
+
+function getUserAvatar(comment) {
+  if (comment.authorAvatar) {
+    return comment.authorAvatar;
+  }
+
+  // Use Dicebear avatar based on author name
+  const seed = encodeURIComponent(comment.authorName || "default");
+  return `https://api.dicebear.com/9.x/personas/svg?backgroundColor=b6e3f4&scale=100&seed=${seed}`;
+}
+
+function formatCommentDate(dateString) {
+  const date = new Date(dateString);
+  const now = new Date();
+  const diff = now - date;
+  const minutes = Math.floor(diff / (1000 * 60));
+  const hours = Math.floor(diff / (1000 * 60 * 60));
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+
+  if (minutes < 1) {
+    return "Just now";
+  } else if (minutes < 60) {
+    return `${minutes} minute${minutes > 1 ? "s" : ""} ago`;
+  } else if (hours < 24) {
+    return `${hours} hour${hours > 1 ? "s" : ""} ago`;
+  } else if (days < 7) {
+    return `${days} day${days > 1 ? "s" : ""} ago`;
+  } else {
+    return date.toLocaleDateString("id-ID", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
+  }
+}
+
+async function addProjectComment() {
+  const commentContent = document.getElementById("commentContent").value.trim();
+
+  if (!commentContent) {
+    showAlert("Please enter a comment", "error");
+    return;
+  }
+
+  if (!editingProjectId) {
+    showAlert("No project selected", "error");
+    return;
+  }
+
+  // Get current user info
+  const currentUser = window.authGuard?.getCurrentUser();
+  if (!currentUser) {
+    showAlert("User not authenticated", "error");
+    return;
+  }
+
+  try {
+    const commentData = {
+      content: commentContent,
+      authorName: currentUser.fullName || currentUser.name || "Unknown User",
+      authorEmail: currentUser.email || "unknown@example.com",
+      authorAvatar: currentUser.profileImage || "",
+      isClient: false, // For now, all comments from dashboard are admin comments
+    };
+
+    const response = await apiRequest(
+      `/projects/${editingProjectId}/comments`,
+      {
+        method: "POST",
+        body: JSON.stringify(commentData),
+      }
+    );
+
+    // Update local project data with new comment
+    const projectIndex = projects.findIndex((p) => p.id === editingProjectId);
+    if (projectIndex !== -1) {
+      projects[projectIndex] = response.project;
+      window.projects = projects;
+    }
+
+    // Clear comment form
+    document.getElementById("commentContent").value = "";
+
+    // Reload comments
+    loadProjectComments(response.project);
+
+    showAlert("Comment added successfully!");
+  } catch (error) {
+    showAlert("Failed to add comment: " + error.message, "error");
   }
 }
 

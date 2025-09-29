@@ -12,6 +12,7 @@
   --text-light: #cbd5e1;
   --text-disabled: #64748b;
   --text-label: #374151;
+  --text-placeholder: #94a3b8;
 
   --sidebar-bg: #1e1c2a;
   --sidebar-text: #ffffff;
@@ -21,7 +22,7 @@
 
   --border-primary: #e2e8f0;
   --border-secondary: #f1f5f9;
-  --border-muted: #d1d5db;
+  --border-muted: #e7e7e7;
   --border-focus: #3b82f6;
   --border-divider: #334155;
 
