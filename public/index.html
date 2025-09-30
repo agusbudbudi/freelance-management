@@ -528,74 +528,88 @@
             <div class="testimonials-track" id="testimonialsTrack">
               <div class="testimonial-card">
                 <p class="testimonial-text">
-                  "AGD Studio has completely transformed how I manage my design
-                  projects. The intuitive interface and powerful features have
-                  saved me countless hours."
+                  "Finally found a freelance management tool that actually gets
+                  it! Managing 15+ clients was chaos before. Now I can track
+                  every project milestone, see which clients need attention, and
+                  never miss a deadline. Game changer for my design business."
                 </p>
                 <div class="testimonial-author">
-                  <div class="author-avatar">SW</div>
+                  <div class="author-avatar">
+                    <img
+                      src="img/testimony-1.png"
+                      alt="Rina Dewi"
+                      class="testimony-img"
+                    />
+                  </div>
                   <div class="author-info">
-                    <h4>Sarah Wilson</h4>
-                    <p>Freelance Designer</p>
+                    <h4>Rina Dewi</h4>
+                    <p>Graphic Designer</p>
                   </div>
                 </div>
               </div>
 
               <div class="testimonial-card">
                 <p class="testimonial-text">
-                  "The project tracking and client management features are
-                  exactly what I needed. It's like having a personal assistant
-                  for my freelance business."
+                  "The client portal feature is brilliant. My clients can now
+                  check project progress themselves without constantly messaging
+                  me. Plus the automated invoice generation? Saved me at least 5
+                  hours per week on admin work alone."
                 </p>
                 <div class="testimonial-author">
-                  <div class="author-avatar">MJ</div>
+                  <div class="author-avatar">
+                    <img
+                      src="img/testimony-2.png"
+                      alt="Budi Wijaya"
+                      class="testimony-img"
+                    />
+                  </div>
                   <div class="author-info">
-                    <h4>Mike Johnson</h4>
-                    <p>Creative Director</p>
+                    <h4>Budi Wijaya</h4>
+                    <p>Freelance Developer</p>
                   </div>
                 </div>
               </div>
 
               <div class="testimonial-card">
                 <p class="testimonial-text">
-                  "The project tracking and client management features are
-                  exactly what I needed. It's like having a personal assistant
-                  for my freelance business."
+                  "Switched from spreadsheets to this platform 3 months ago.
+                  Revenue tracking is incredibly detailed - I can see exactly
+                  which services are most profitable. Also love how easy it is
+                  to share design results with clients through the secure
+                  portal."
                 </p>
                 <div class="testimonial-author">
-                  <div class="author-avatar">MJ</div>
+                  <div class="author-avatar">
+                    <img
+                      src="img/testimony-3.png"
+                      alt="Ayu Safitri"
+                      class="testimony-img"
+                    />
+                  </div>
                   <div class="author-info">
-                    <h4>Mike Johnson</h4>
-                    <p>Creative Director</p>
+                    <h4>Ayu Safitri</h4>
+                    <p>Brand Designer</p>
                   </div>
                 </div>
               </div>
 
               <div class="testimonial-card">
                 <p class="testimonial-text">
-                  "The project tracking and client management features are
-                  exactly what I needed. It's like having a personal assistant
-                  for my freelance business."
+                  "As someone juggling 20+ projects monthly, this system keeps
+                  me sane. The dashboard shows everything at a glance - what's
+                  overdue, what's in progress, which clients haven't paid. No
+                  more mental overload trying to remember everything."
                 </p>
                 <div class="testimonial-author">
-                  <div class="author-avatar">MJ</div>
-                  <div class="author-info">
-                    <h4>Mike Johnson</h4>
-                    <p>Creative Director</p>
+                  <div class="author-avatar">
+                    <img
+                      src="img/testimony-4.png"
+                      alt="Fajar Hidayat"
+                      class="testimony-img"
+                    />
                   </div>
-                </div>
-              </div>
-
-              <div class="testimonial-card">
-                <p class="testimonial-text">
-                  "This platform has streamlined my entire workflow. From client
-                  onboarding to project delivery, everything is now organized
-                  and efficient."
-                </p>
-                <div class="testimonial-author">
-                  <div class="author-avatar">ES</div>
                   <div class="author-info">
-                    <h4>Emma Stone</h4>
+                    <h4>Fajar Hidayat</h4>
                     <p>UI/UX Designer</p>
                   </div>
                 </div>
@@ -603,30 +617,22 @@
 
               <div class="testimonial-card">
                 <p class="testimonial-text">
-                  "The invoicing and payment tracking features have saved me so
-                  much time. I can focus more on my creative work instead of
-                  administrative tasks."
+                  "Best investment for my freelance career. Client management
+                  alone is worth it - all communication history, project files,
+                  and payment records in one place. When clients come back after
+                  6 months, I have everything at my fingertips."
                 </p>
                 <div class="testimonial-author">
-                  <div class="author-avatar">DT</div>
-                  <div class="author-info">
-                    <h4>David Taylor</h4>
-                    <p>Brand Strategist</p>
+                  <div class="author-avatar">
+                    <img
+                      src="img/testimony-5.png"
+                      alt="Linda Maharani"
+                      class="testimony-img"
+                    />
                   </div>
-                </div>
-              </div>
-
-              <div class="testimonial-card">
-                <p class="testimonial-text">
-                  "Client communication has never been easier. The real-time
-                  updates keep everyone on the same page and projects running
-                  smoothly."
-                </p>
-                <div class="testimonial-author">
-                  <div class="author-avatar">LB</div>
                   <div class="author-info">
-                    <h4>Lisa Brown</h4>
-                    <p>Web Developer</p>
+                    <h4>Linda Maharani</h4>
+                    <p>Creative Director</p>
                   </div>
                 </div>
               </div>
@@ -786,20 +792,56 @@
       const navMenu = document.querySelector(".nav-menu");
 
       if (mobileMenuBtn && navMenu) {
-        mobileMenuBtn.addEventListener("click", function () {
-          if (navMenu.style.display === "flex") {
+        let isMenuOpen = false;
+
+        function openMenu() {
+          navMenu.style.display = "flex";
+          navMenu.style.flexDirection = "column";
+          navMenu.style.position = "absolute";
+          navMenu.style.top = "110%";
+          navMenu.style.left = "0";
+          navMenu.style.right = "0";
+          navMenu.style.background = "white";
+          navMenu.style.padding = "1.5rem";
+          navMenu.style.boxShadow = "0 4px 20px rgba(0, 0, 0, 0.05)";
+          navMenu.style.borderRadius = "16px";
+          navMenu.style.zIndex = "999";
+
+          // Remove closing class if exists and add opening class
+          navMenu.classList.remove("mobile-closing");
+          navMenu.classList.add("mobile-open");
+          isMenuOpen = true;
+        }
+
+        function closeMenu() {
+          // Add closing animation
+          navMenu.classList.remove("mobile-open");
+          navMenu.classList.add("mobile-closing");
+
+          // Wait for animation to complete before hiding
+          setTimeout(() => {
             navMenu.style.display = "none";
+            navMenu.classList.remove("mobile-closing");
+            isMenuOpen = false;
+          }, 300); // Match animation duration
+        }
+
+        mobileMenuBtn.addEventListener("click", function () {
+          if (isMenuOpen) {
+            closeMenu();
           } else {
-            navMenu.style.display = "flex";
-            navMenu.style.flexDirection = "column";
-            navMenu.style.position = "absolute";
-            navMenu.style.top = "100%";
-            navMenu.style.left = "0";
-            navMenu.style.right = "0";
-            navMenu.style.background = "white";
-            navMenu.style.padding = "1rem 2rem";
-            navMenu.style.boxShadow = "0 4px 20px rgba(0, 0, 0, 0.1)";
+            openMenu();
           }
+        });
+
+        // Close mobile menu when clicking nav links (only if menu is open)
+        const navLinks = navMenu.querySelectorAll(".nav-link");
+        navLinks.forEach((link) => {
+          link.addEventListener("click", function () {
+            if (isMenuOpen) {
+              closeMenu();
+            }
+          });
         });
       }
 
@@ -937,9 +979,25 @@
 
         let currentCenter = 1; // Start with the second testimonial as center (index 1)
         const totalItems = testimonialCards.length;
-        const cardWidth = 500; // Card width from CSS
-        const cardGap = 32; // Gap: 2rem = 32px
-        const cardWidthWithGap = cardWidth + cardGap; // Total space per card
+
+        // Function to get responsive card dimensions
+        function getCardDimensions() {
+          const isMobile = window.innerWidth <= 768;
+          let cardWidth, cardGap;
+
+          if (isMobile) {
+            // Mobile: use actual card width from viewport
+            const mobileCardWidth = Math.min(window.innerWidth * 0.75, 300);
+            cardWidth = mobileCardWidth;
+            cardGap = 16; // Smaller gap for mobile
+          } else {
+            // Desktop: fixed width
+            cardWidth = 500;
+            cardGap = 32; // 2rem = 32px
+          }
+
+          return { cardWidth, cardGap, cardWidthWithGap: cardWidth + cardGap };
+        }
 
         // Initialize slider
         function initSlider() {
@@ -948,10 +1006,23 @@
 
         // Update slider position and highlight center card
         function updateSlider() {
+          const { cardWidth, cardWidthWithGap } = getCardDimensions();
+          const isMobile = window.innerWidth <= 768;
+
           // Calculate position to center the current testimonial
           const containerWidth = track.parentElement.offsetWidth;
-          const offsetToCenter = (containerWidth - cardWidth) / 2;
-          const translateX = offsetToCenter - currentCenter * cardWidthWithGap;
+
+          let translateX;
+          if (isMobile) {
+            // Mobile: precise centering calculation
+            const firstCardWidth = testimonialCards[0].offsetWidth;
+            const offsetToCenter = (containerWidth - firstCardWidth) / 2;
+            translateX = offsetToCenter - currentCenter * cardWidthWithGap;
+          } else {
+            // Desktop: original calculation
+            const offsetToCenter = (containerWidth - cardWidth) / 2;
+            translateX = offsetToCenter - currentCenter * cardWidthWithGap;
+          }
 
           track.style.transform = `translateX(${translateX}px)`;
 
@@ -1050,8 +1121,14 @@
         // Start auto-play
         startAutoPlay();
 
-        // Handle window resize
-        window.addEventListener("resize", updateSlider);
+        // Handle window resize - recalculate dimensions
+        let resizeTimeout;
+        window.addEventListener("resize", () => {
+          clearTimeout(resizeTimeout);
+          resizeTimeout = setTimeout(() => {
+            updateSlider();
+          }, 100); // Debounce resize events
+        });
       });
     </script>
   </body>

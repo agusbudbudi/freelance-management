@@ -122,8 +122,9 @@ body::before {
 
 .nav-menu {
   display: flex;
-  gap: 2rem;
+  gap: 1.2rem;
   list-style: none;
+  border-radius: 10px;
 }
 
 .nav-link {
@@ -421,6 +422,7 @@ body::before {
   /* margin-top: -60px; */
   position: relative;
   z-index: 998;
+  margin-bottom: 50px;
 }
 
 .feature-container {
@@ -685,7 +687,7 @@ body::before {
 .testimonials-track {
   display: flex;
   transition: transform 0.5s ease;
-  gap: 2rem;
+  gap: 1rem;
 }
 
 .testimonial-card {
@@ -700,6 +702,13 @@ body::before {
   transform: scale(0.9);
   transition: all 0.5s ease;
   position: relative;
+}
+
+.testimony-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 30%;
 }
 
 .testimonial-card.active {
@@ -810,12 +819,9 @@ body::before {
   width: 40px;
   height: 40px;
   border-radius: 30%;
-  background: var(--primary-color);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
-  font-weight: 600;
 }
 
 .author-info h4 {
@@ -976,6 +982,7 @@ body::before {
 .hero-preview {
   position: relative;
   z-index: 2;
+  padding: 1rem;
 }
 
 .dashboard-preview {
@@ -1103,7 +1110,7 @@ body::before {
 .projects-header {
   font-size: 0.8rem;
   font-weight: 600;
-  margin-bottom: 0.75rem;
+  margin-bottom: 10px;
   color: var(--text-dark);
 }
 
@@ -1146,6 +1153,29 @@ body::before {
   border: none;
   font-size: 1.2rem;
   cursor: pointer;
+}
+
+/* Mobile Nav Menu Animations */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
 }
 
 /* Responsive */
@@ -1210,7 +1240,7 @@ body::before {
 
   .feature-section.dark {
     width: 100%;
-    padding: 3rem 1.3rem 1.3rem;
+    padding: 3rem 1.3rem;
     border-radius: 0;
   }
 
@@ -1234,6 +1264,15 @@ body::before {
 
   .mobile-menu-btn {
     display: block;
+  }
+
+  /* Mobile Nav Menu Animations - Only apply in mobile view */
+  .nav-menu.mobile-open {
+    animation: slideDown 0.3s ease-out forwards;
+  }
+
+  .nav-menu.mobile-closing {
+    animation: slideUp 0.3s ease-out forwards;
   }
   .feature-section {
     padding: 20px 1rem; /* kurangin padding biar muat di mobile */
@@ -1262,7 +1301,8 @@ body::before {
   }
 
   .hero-badges {
-    font-size: 9px;
+    font-size: 10px;
+    justify-content: center;
   }
 
   .hero-content p,
@@ -1292,7 +1332,7 @@ body::before {
   }
 
   .chart-header {
-    margin-bottom: 1rem;
+    margin-bottom: 10px;
   }
 
   .chart-placeholder {
@@ -1331,6 +1371,55 @@ body::before {
 
   .hero {
     margin-bottom: 0;
+  }
+
+  /* Testimonials Mobile Fixes */
+  .testimonials-section {
+    padding: 50px 0;
+    padding-top: 80px;
+  }
+
+  .testimonials-container {
+    padding: 0;
+  }
+
+  .testimonials-slider {
+    overflow: hidden;
+  }
+
+  .testimonials-wrapper {
+    padding: 2rem 0;
+    overflow: visible;
+  }
+
+  .testimonials-track {
+    padding: 0;
+  }
+
+  .testimonial-card {
+    width: 75vw;
+    max-width: 300px;
+    min-height: auto;
+    padding: 1.5rem;
+  }
+
+  .testimonial-text {
+    font-size: 13px;
+    margin-bottom: 1rem;
+  }
+
+  .slider-dots {
+    margin-bottom: 1.5rem;
+  }
+
+  .slider-navigation {
+    gap: 1rem;
+  }
+
+  .slider-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 1rem;
   }
 }
 
